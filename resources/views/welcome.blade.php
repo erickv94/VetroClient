@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('titulo')
-Listado de Productos
+Bienvenido
 @endsection
 
 @section('title_content')
@@ -22,5 +22,4 @@ Listado de Productos
 @endsection
 
 @section('custom_javas')
-<script src="{{ asset('js/custom/pizza/crud.js') }}" ></script>
 @endsection

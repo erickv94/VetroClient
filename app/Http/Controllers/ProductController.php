@@ -7,22 +7,45 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-     public function index()
+     public function index(Request $request)
     {
     	$client = new \GuzzleHttp\Client();
 		$headers = [
 	        'content-type' => 'application/json',
 	        'accept'     => 'application/json',
-	        'x-vtex-api-appkey'      => 'vtexappkey-vetro-YLNZZA',
-	        'x-vtex-api-apptoken' =>  'GKUYKCSHRWTOCMLMNIKVTOSFNIADICSKHAMTOHCVTBXWBADGTVAZFPPSRPLBBPZODJGCZSYGGOCSQWDMFUJMCSFRKUBYWATEBJSSUAGBWTSQNXBVMYWHFNLKDOREQAJG'
+	        'x-vtex-api-appkey'      => env('API_KEY'),
+	        'x-vtex-api-apptoken' =>  env('API_TOKEN')
 	    	];
-	    $body = 'hello!';
-		$response = $client->request('GET',
-			'https://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search/vectra', $headers);
-		//echo $response->getStatusCode(); // 200
-		//echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
-		$products = json_decode($response->getBody());
-		//dd($products)
-        return view('products.index',compact('products'));
+	    //logica de paginación
+	    $per_page=2; //cantidad de elementos en cada pagina
+	    $page=$request["page"];
+
+	    if($page && $page!=1){
+		    $to=($per_page*$page)-1; // el ultimo elemento que se vera
+		    $from= ($to-$per_page)+1; // desde que elemento se vera
+	    }
+	 	else
+	 	{
+	 		$to=$per_page-1;
+	 		$from=0;
+	 	}
+
+	   
+	    $urlbase = 'http://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search/vectra?';
+	    //esto funcionaba cuando pasaba el la url los parametros
+	    //$url = $urlbase . $request["from"] . '&_to=' . $request["to"] ;
+	    //$url = $urlbase . '&_from=' . $from . '&_to=' . $to ;
+	    //dd($url);
+	    
+		//todos los productos
+		$response = $client->request('GET',$urlbase, $headers);
+		$productsAll = json_decode($response->getBody());
+		$count=count($productsAll);
+		$totalPages=(int)ceil($count/$per_page);
+		$products=array_slice($productsAll,$from,$per_page);
+		
+		$current_page = $request["page"]??1;
+		//dd($products);
+        return view('products.index',compact('products','totalPages','current_page'));
     }
 }
