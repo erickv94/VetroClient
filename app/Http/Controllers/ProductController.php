@@ -13,11 +13,11 @@ class ProductController extends Controller
 		$headers = [
 	        'content-type' => 'application/json',
 	        'accept'     => 'application/json',
-	        'x-vtex-api-appkey'      => env('API_KEY'),
-	        'x-vtex-api-apptoken' =>  env('API_TOKEN')
+	        'X-VTEX-API-AppKey'      => env('API_KEY'),
+	        'X-VTEX-API-AppToken' =>  env('API_TOKEN')
 	    	];
 	    //logica de paginación
-	    $per_page=2; //cantidad de elementos en cada pagina
+	    $per_page=5; //cantidad de elementos en cada pagina
 	    $page=$request["page"];
 
 	    if($page && $page!=1){
@@ -29,21 +29,23 @@ class ProductController extends Controller
 	 		$to=$per_page-1;
 	 		$from=0;
 	 	}
-
-	   
-	    $urlbase = 'http://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search/vectra?';
+        $urlbase='https://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search/';
+        if($request['search'])
+	        $urlbase = 'https://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search/'.$request['search'];
 	    //esto funcionaba cuando pasaba el la url los parametros
 	    //$url = $urlbase . $request["from"] . '&_to=' . $request["to"] ;
 	    //$url = $urlbase . '&_from=' . $from . '&_to=' . $to ;
 	    //dd($url);
-	    
+
 		//todos los productos
-		$response = $client->request('GET',$urlbase, $headers);
-		$productsAll = json_decode($response->getBody());
-		$count=count($productsAll);
-		$totalPages=(int)ceil($count/$per_page);
-		$products=array_slice($productsAll,$from,$per_page);
-		
+		$response = $client->request('GET',$urlbase, ["headers"=>$headers]);
+        $productsAll = json_decode($response->getBody());
+        $count=count($productsAll);
+		$totalPages=(int) ceil($count/$per_page);
+        $products=array_slice($productsAll,$from,$per_page);
+
+
+
 		$current_page = $request["page"]??1;
 		//dd($products);
         return view('products.index',compact('products','totalPages','current_page'));
