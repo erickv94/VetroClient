@@ -48,7 +48,7 @@ class ProductController extends Controller
 
 		$current_page = $request["page"]??1;
 		//dd($products);
-        return view('products.index',compact('products','totalPages','current_page'));
+        return view('Products.index',compact('products','totalPages','current_page'));
     }
 
     public function edit(Request $request, $id){
@@ -64,6 +64,6 @@ class ProductController extends Controller
         $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
         $product=json_decode($response->getBody());
 
-        return view('products.edit',['product'=>$product]);
+        return view('Products.edit',['product'=>$product]);
     }
 }

@@ -1,4 +1,4 @@
-@extends('layout.layout')
+@extends('Layout.layout')
 
 @section('titulo')
 Products
