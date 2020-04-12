@@ -32,7 +32,7 @@
     <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     <aside class="app-sidebar">
-        @include('modules.aside')
+        @include('Modules.aside')
     </aside>
     <main class="app-content">
         <div class="app-title">
