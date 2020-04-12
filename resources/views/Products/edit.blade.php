@@ -4,7 +4,7 @@
 Edit Product
 @endsection
 @section('custom_css')
-<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+<link rel="stylesheet" href="/css/custom.css">
 @endsection
 @section('title_content')
 <h1><i class="fa fa-dashboard"></i>Edit Product</h1>
@@ -18,7 +18,7 @@ Edit Product
 @section('content')
     <div class="tile">
             <div class="tile-body">
-                <h3 class="tile-title">{{ $product->Name }} <i class="fa fa-product-hunt" aria-hidden="true"></i></h3>
+                <h3 class="tile-title"><i class="fa fa-paw" aria-hidden="true"></i> {{ $product->Name }} </h3>
                 <div class="form-group">
                     <label for="editor">Edit description</label>
                     <textarea class='form-control' id="editor" name='editor'> {!! $product->Description !!} </textarea>

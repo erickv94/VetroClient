@@ -15,7 +15,7 @@ Bienvenido
 @section('content')
     <div class="tile">
             <div class="tile-body">
-              <h3>Bienvenido</h3>
+              <h3>Welcome</h3>
             </div>
     </div>
 

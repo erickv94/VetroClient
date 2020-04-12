@@ -4,7 +4,7 @@
 Products
 @endsection
 @section('custom_css')
-<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+<link rel="stylesheet" href="/css/custom.css">
 @endsection
 @section('title_content')
 <h1><i class="fa fa-dashboard"></i>Products</h1>
