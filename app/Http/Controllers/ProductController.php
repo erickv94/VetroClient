@@ -50,4 +50,20 @@ class ProductController extends Controller
 		//dd($products);
         return view('products.index',compact('products','totalPages','current_page'));
     }
+
+    public function edit(Request $request, $id){
+        $client = new \GuzzleHttp\Client();
+		$headers = [
+	        'content-type' => 'application/json',
+	        'accept'     => 'application/json',
+	        'X-VTEX-API-AppKey'      => env('API_KEY'),
+	        'X-VTEX-API-AppToken' =>  env('API_TOKEN')
+            ];
+
+        $urlbase="https://vetro.vtexcommercestable.com.br/api/catalog_system/pvt/products/ProductGet/".$id;
+        $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
+        $product=json_decode($response->getBody());
+
+        return view('products.edit',['product'=>$product]);
+    }
 }

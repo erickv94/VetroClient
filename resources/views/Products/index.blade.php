@@ -1,17 +1,17 @@
 @extends('layout.layout')
 
 @section('titulo')
-Listado de Productos
+Products
 @endsection
 @section('custom_css')
 <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 @endsection
 @section('title_content')
-<h1><i class="fa fa-dashboard"></i>Listado de Productos</h1>
+<h1><i class="fa fa-dashboard"></i>Products</h1>
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{route('products.index')}}">Productos</a></li>
+<li class="breadcrumb-item"><a href="{{route('products.index')}}">Products</a></li>
 @endsection
 
 @section('content')
@@ -22,7 +22,7 @@ Listado de Productos
                         <input name='search' class="form-control" type="text" placeholder="Search" aria-label="Search" value="{{request('search')}}">
                     </div>
                     <div class="col-sm-2">
-                        <input class="form-control btn btn-info" type="submit" placeholder="Search" aria-label="Search">
+                        <input class="form-control btn btn-info" type="submit" placeholder="Search" aria-label="Search" value='Search'>
                     </div>
                 </form>
 
@@ -48,8 +48,8 @@ Listado de Productos
                           <td>{{$product->brand}}</td>
 
                           <td>
-                            <a  class="btn btn-info btn-xs text-light" ><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
-                            <a  class="btn btn-primary btn-xs text-light" ><i class="fa fa-eye" aria-hidden="true"></i>See</a>
+                          <a  class="btn btn-info btn-xs text-light" href="{{ route('products.edit', ['id'=>$product->productId]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                            {{-- <a  class="btn btn-primary btn-xs text-light" ><i class="fa fa-eye" aria-hidden="true"></i>See</a> --}}
                           </td>
                         </tr>
                         @endforeach
