@@ -23,7 +23,7 @@ Edit Product
                     <label for="editor">Edit description</label>
                     <textarea class='form-control' id="editor" name='editor'> {!! $product->Description !!} </textarea>
                     <button  id="clipboard" class="btn btn-outline-primary my-3 ml-2"> <i class="fa fa-clipboard" aria-hidden="true"></i> Copy to clipboard </button>
-                    <a class="btn btn-outline-primary my-3 ml-2" href="https://vetro.myvtex.com/admin/Site/ProdutoForm.aspx?id={{$product->Id}}" ><i class="fa fa-globe" aria-hidden="true"></i> Go to Edit Product</a>
+                    <a class="btn btn-outline-primary my-3 ml-2" target="_blank" href="https://vetro.myvtex.com/admin/Site/ProdutoForm.aspx?id={{$product->Id}}" ><i class="fa fa-globe" aria-hidden="true"></i> Go to Edit Product</a>
                 </div>
             </div>
     </div>
