@@ -21,7 +21,16 @@ Route::get('/', function () {
 Route::get('/products', 'ProductController@index')->name('products.index');
 Route::get('/products/edit/{id}', 'ProductController@edit')->name('products.edit');
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix'=>'users'],function (){
+	#routes of users
+	Route::get('/','UserController@index')->name('users.index');
+	Route::get('/list','UserController@list')->name('users.list');
+	Route::put('/update/{id}','UserController@update')->name('users.update');
+	#Route::get('/{id}','UserController@show')->name('users.show');
+	Route::put('/toggle/{id}','UserController@toggle')->name('users.toggle');
+	Route::post('/','UserController@store')->name('users.store');
+});

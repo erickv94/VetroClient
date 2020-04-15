@@ -11,4 +11,7 @@
 <li><a class="app-menu__item {{isActive('products')}}" href="{{route('products.index')}}">
     <img src="/images/animals.svg" alt="" width="25px">&nbsp;
     <span class="app-menu__label">Products</span></a></li>
+<li><a class="app-menu__item {{isActive('users')}}" href="{{route('users.index')}}">
+    <img src="/images/users.svg" alt="" width="25px">&nbsp;
+    <span class="app-menu__label">Users</span></a></li>
 </ul>

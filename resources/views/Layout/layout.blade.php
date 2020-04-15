@@ -57,7 +57,8 @@
     <script src="/js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
     <script src="/js/plugins/pace.min.js"></script>
-
+    <!--Cambiar aca para produccion-->
+    <script src="/js/vuedev.js"></script>
     <script src="https://unpkg.com/axios@0.19.0/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     @yield('custom_javas')
