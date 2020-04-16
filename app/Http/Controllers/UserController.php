@@ -6,7 +6,9 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Caffeinated\Shinobi\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests\UserRequestUpdate;
 use Caffeinated\Shinobi\Models\Permission;
 
@@ -51,7 +53,7 @@ class UserController extends Controller
 
     }
     
-     public function update(UserRequestUpdate $request, $id){
+    public function update(UserRequestUpdate $request, $id){
         
         $user=User::findOrFail($id);
         $user->name=$request->name;
@@ -65,5 +67,50 @@ class UserController extends Controller
         if(!empty($request->permissions)){
             $user->syncPermissions($request->permissions);
         }
+    }
+
+    public function profile($id){
+
+        $user=User::findOrFail($id);
+        
+        return view('users.profile',compact('user'));
+    }
+    public function updateprofile(Request $request,$id){
+        
+        $user=User::findOrFail($id);
+        $user->name=$request->name;
+        $user->username=$request->username;
+        $rules =[
+            'name' => 'required|string',
+            'username' => 'required|string',
+            'currentPassword' => 'nullable|string',
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+        ];
+        
+        $this->validate($request,$rules);
+
+        if(!empty($request->currentPassword)){
+            $passwordActual = Hash::make($request->currentPassword);
+            
+            if(Hash::check($request->currentPassword, $user->password)){
+                if(!empty($request->password)){
+                    $user->password = Hash::make($request->password);
+                    $user->save();
+                    #return back()->with('info','User Updated with success');
+                    Auth::logout();
+                    return redirect('/login');
+                }else{
+                    return back()->with('msj','The new password is empty');
+                }
+            }else{
+                return back()->with('msj','The current password is not correct');
+            }
+        }
+        else{
+            $user->save();
+            return back()->with('info','User Updated with success');
+        }
+      
+       
     }
 }
