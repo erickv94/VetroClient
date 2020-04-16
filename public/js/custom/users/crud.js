@@ -157,7 +157,7 @@ new Vue({
                 'password' : this.changePassword
                 }
             };
-            console.log(this.fillUsuario);
+            //console.log(this.fillUsuario);
             let url='users/update/'+this.fillUsuario.id;
             axios.put(url, this.fillUsuario ).then((response)=>{
                 this.getUsuarios();
@@ -165,6 +165,8 @@ new Vue({
                 this.usuarioActual=response.data.respuesta;
                 toastr.success('New User updated success');
                 $("#edit").modal('hide');
+                this.verContra = false;
+                this.changePassword = ''
             })
             .catch((error)=>{
                 this.errors=error.response.data.errors
