@@ -45,8 +45,7 @@ class UserController extends Controller
         $password_created=$request->password;
         $user->password=Hash::make($password_created);
         $user->save();
-        $user->givePermissionTo($request->permissions);
-
+        $user->syncPermissions($request->permissions);
         return response()->json(['usuario'=>$user->usuario]);
 
     }

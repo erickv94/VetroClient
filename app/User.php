@@ -51,4 +51,12 @@ class User extends Authenticatable
                 $q->where('slug',$rol);
             });
     }
+    public function syncPermissions($permissions){
+        $slugs = [];
+        for ($i=0; $i<count($permissions); $i++ ) {
+           array_push($slugs, $permissions[$i]["slug"]);
+        };
+        $this->givePermissionTo($slugs);
+    }
 }
+

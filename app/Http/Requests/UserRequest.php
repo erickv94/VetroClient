@@ -26,10 +26,9 @@ class UserRequest extends FormRequest
         return [
             'name'=>'required',
             'username'=>'nullable|unique:users,username',
-            'email'=>'nullable|email|unique:users,email',
+            'email'=>'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'permissions'=>'required|exists:permissions,slug',
-
+            'permissions'=>'required|array|min:1|max:3',
         ];
     }
 }

@@ -15,10 +15,9 @@
 
             </div>
             <div class="form-group">
-                <label class="control-label">Password</label>
-                <input :class="['form-control', errors.password ? 'is-invalid' : '']" type="password" v-model="newUsuario.password" name="password" placeholder="Enter Password">
-                <div v-if='errors.password' class="form-control-feedback text-danger">@{{ errors.password[0] }}</div>
-
+                <label class="control-label">Email</label>
+                <input :class="['form-control', errors.email ? 'is-invalid' : '']" type="email" v-model="newUsuario.email" placeholder="Enter Email">
+                <div v-if='errors.email' class="form-control-feedback text-danger">@{{ errors.email[0] }}</div>
             </div>
             <div class="form-group">
                 <div class="row">
@@ -29,20 +28,27 @@
 
                     </div>
                     <div class="col-6">
-                        <label class="control-label">Email</label>
-                        <input :class="['form-control', errors.email ? 'is-invalid' : '']" type="email" v-model="newUsuario.email" placeholder="Enter Email">
-                        <div v-if='errors.email' class="form-control-feedback text-danger">@{{ errors.email[0] }}</div>
+                        <label class="control-label">Password</label>
+                        <input :class="['form-control', errors.password ? 'is-invalid' : '']" type="password" v-model="newUsuario.password" name="password" placeholder="Enter Password">
+                        <div v-if='errors.password' class="form-control-feedback text-danger">@{{ errors.password[0] }}</div>
+                            </div>
                     </div>
-                </div>
             <pre> </pre>
             </div>
             <div class="form-group">
-                <label for="permissions">Permisions</label>
-                <select :class="['form-control', errors.permissions ? 'is-invalid' : '']" id="permissions" v-model=newUsuario.permissions>
+                <!--<select :class="['form-control', errors.permissions ? 'is-invalid' : '']" id="permissions" v-model=newUsuario.permissions>
                   <option value selected></option>
 
                     <option v-for="permission in permissions" :value='permission.slug'>@{{ permission.name }}</option>
-                </select>
+                </select>-->
+                <multiselect
+                    :custom-label="customLabel"
+                    :class="[ errors.permissions ? 'is-invalid' : '']"
+                    v-model="newUsuario.permissions"
+                    :options="permissions"
+                    track-by="description" label="description"
+                    :multiple="true">
+                </multiselect>
                 <div v-if='errors.permissions' class="form-control-feedback text-danger">@{{ errors.permissions[0] }}</div>
 
             </div>

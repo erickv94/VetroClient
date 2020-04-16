@@ -14,6 +14,7 @@
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
     @yield('custom_css')
 </head>
 
@@ -60,7 +61,7 @@
     <!--Cambiar aca para produccion-->
     <script src="/js/vuedev.js"></script>
     <script src="https://unpkg.com/axios@0.19.0/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script><script src="https://unpkg.com/vue-multiselect@2.1.0"></script>
     @yield('custom_javas')
 </body>
 

@@ -1,6 +1,6 @@
 new Vue({
-
     el: "#crud",
+    components:{ Multiselect:window.VueMultiselect.default},
     created() {
         this.getUsuarios();
     },
@@ -15,13 +15,15 @@ new Vue({
             'from': 0,
             'to': 0
         },
+        permissionsAvaible:[],
         newUsuario: {
             'name':null,
             'username':null,
             'email': null,
             'password': null,
-            'permissions': null,
+            'permissions': [],
         },
+
         fillUsuario:{
             'nombre':null,
             'usuario':null,
@@ -64,6 +66,9 @@ new Vue({
 
     },
     methods: {
+           customLabel ({description}){
+            return `${description}`
+        },
         getUsuarios: function(page){
             let url="/users/list?page="+this.pagination.current_page;
             axios.get(url).then(response=> {
@@ -83,7 +88,6 @@ new Vue({
 
         createUser: function() {
             let url = 'users';
-
             axios.post(url, this.newUsuario)
                 .then(response => {
                     this.getUsuarios();

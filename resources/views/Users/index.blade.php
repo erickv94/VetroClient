@@ -4,6 +4,7 @@
 Users
 @endsection
 
+
 @section('title_content')
 <h1><i class="fa fa-dashboard"></i>Users List</h1>
 @endsection
