@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home')->middleware('auth');
+})->name('welcome')->middleware('auth');
 
 Route::group(['prefix' => 'products','middleware'=>['auth']], function () {
     Route::get('/', 'ProductController@index')->name('products.index');

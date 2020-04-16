@@ -5,7 +5,7 @@
 </div>
 </div>
 <ul class="app-menu">
-<li><a class="app-menu__item {{isActive('/')}} " href="{{route('home')}}">
+<li><a class="app-menu__item {{isActive('/')}} " href="{{route('welcome')}}">
     <img src="/images/home.svg" alt="" width="25px"> &nbsp;
     <span class="app-menu__label">Home</span></a></li>
 <li><a class="app-menu__item {{isActive('products')}}" href="{{route('products.index')}}">
