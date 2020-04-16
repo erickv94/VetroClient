@@ -65,6 +65,18 @@ Edit Product
                        </div>
                    </div>
                 </div>
+                 <pre></pre>
+                 <div class="form-group">
+                    <label for="edit">Edit Keywords</label>
+                    <div class="row">
+                       <div class="col-8">
+                              <textarea class="form-control" id="keywords"  name="keywords" rows="4">{{$product->KeyWords}}</textarea>
+                       </div>
+                       <div class="col-4">
+                           <button class="btn btn-primary btn-block" type="submit">Update Keywords</button>
+                       </div>
+                   </div>
+                </div>
                
             </div>
     </div>
