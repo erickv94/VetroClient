@@ -126,7 +126,7 @@ class UserSeeder extends Seeder
         	'products.edit.image', 
         	'products.insert.watermark'
         );
-         User::create(
+        User::create(
             [
             'name' => 'Madalin',
             'username'=>'madalin',
@@ -135,6 +135,45 @@ class UserSeeder extends Seeder
             'password' =>Hash::make("vetro") , // password
             'remember_token' => Str::random(10),
             ]
+        )->givePermissionTo(
+            'products.edit.image', 
+            'products.insert.watermark'
+        );
+        User::create(
+            [
+            'name' => 'George',
+            'username'=>'George',
+            'email' => 'george.onofrei@we-go.ro',
+            'email_verified_at' => now(),
+            'password' =>Hash::make("vetro") , // password
+            'remember_token' => Str::random(10),
+            ]
+        )->givePermissionTo(
+            'users.show.log'
+        );
+        User::create(
+            [
+            'name' => 'Coca',
+            'username'=>'Coca',
+            'email' => 'cocoa.cascaval@vetro.vet',
+            'email_verified_at' => now(),
+            'password' =>Hash::make("vetro") , // password
+            'remember_token' => Str::random(10),
+            ]
+        )->givePermissionTo(
+            'users.show.log'
+        );
+        User::create(
+            [
+            'name' => 'Andrei',
+            'username'=>'Andrei',
+            'email' => 'andrei.prajina@vetro.vet',
+            'email_verified_at' => now(),
+            'password' =>Hash::make("vetro") , // password
+            'remember_token' => Str::random(10),
+            ]
+        )->givePermissionTo(
+            'users.show.log'
         );
     }
 }
