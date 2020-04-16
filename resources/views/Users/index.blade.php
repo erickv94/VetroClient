@@ -51,10 +51,10 @@ Users
                             </td>
                             <td class="d-flex justify-content-center">
                                 <a class="btn btn-outline-info mr-2" v-on:click.prevent="showUsuario(usuario)"><i class="fa fa-pencil icon-expe"></i></a>
-                                <a class="btn btn-outline-warning mr-2" v-on:click.prevent="toggleUsuario(usuario.id)">
+                               <!-- <a class="btn btn-outline-warning mr-2" v-on:click.prevent="toggleUsuario(usuario.id)">
                                     <i v-if='usuario.habilitado' class="fa fa-unlock icon-expe"></i>
                                     <i v-else class="fa fa-lock icon-expe"></i>
-                                </a>
+                                </a>-->
                                 
                             </td>
                         </tr>

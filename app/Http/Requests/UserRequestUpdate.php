@@ -29,7 +29,7 @@ class UserRequestUpdate extends FormRequest
             'name'=>'required',
             'username'=>'nullable|unique:users,username,' . $id ,
             'email'=>'required|email|unique:users,email,' . $id ,
-            'permissions'=>'required|array|min:1',
+            'permissions'=>'nullable|array',
             'password' => 'nullable|min:6',
         ];
     }

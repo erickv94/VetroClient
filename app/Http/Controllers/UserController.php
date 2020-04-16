@@ -62,11 +62,8 @@ class UserController extends Controller
         }
         $user->save();
         $user->revokePermissionTo($user->permissions);
-        $user->syncPermissions($request->permissions);
-    }
-
-    public function destroy(User $user)
-    {
-        //
+        if(!empty($request->permissions)){
+            $user->syncPermissions($request->permissions);
+        }
     }
 }
