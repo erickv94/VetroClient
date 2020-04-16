@@ -15,17 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('home');
+})->name('home')->middleware('auth');
 
-
-Route::get('/products', 'ProductController@index')->name('products.index');
-Route::get('/products/edit/{id}', 'ProductController@edit')->name('products.edit');
+Route::group(['prefix' => 'products','middleware'=>['auth']], function () {
+    Route::get('/', 'ProductController@index')->name('products.index');
+    Route::get('/edit/{id}', 'ProductController@edit')->name('products.edit');
+});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix'=>'users'],function (){
+Route::group(['prefix'=>'users','middleware'=>['auth']],function (){
 	#routes of users
 	Route::get('/','UserController@index')->name('users.index');
 	Route::get('/list','UserController@list')->name('users.list');
@@ -33,4 +34,13 @@ Route::group(['prefix'=>'users'],function (){
 	#Route::get('/{id}','UserController@show')->name('users.show');
 	Route::put('/toggle/{id}','UserController@toggle')->name('users.toggle');
 	Route::post('/','UserController@store')->name('users.store');
+});
+
+
+
+
+Route::group(['prefix' => 'prices','middleware'=>['auth']], function () {
+    Route::get('/','PriceController@index')->name('prices.index');
+    Route::get('/loadjson','PriceController@loadData')->name('prices.load_data');
+    Route::get('/{id}','PriceController@checkPrices')->name('prices.check');
 });

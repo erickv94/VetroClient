@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="control-label">{{ __('Correo Electronico') }}</label>
             <input class="form-control @error('usuario') is-invalid @enderror @error('email') is-invalid @enderror"
-                name="username" value="{{ old('email')}}" required autocomplete="usuario" autofocus placeholder="Enter email">
+                name="email" value="{{ old('email')}}" required autocomplete="usuario" autofocus placeholder="Enter email">
 
             @error('usuario')
             <span class="invalid-feedback" role="alert">
@@ -42,6 +42,6 @@
                     class="fa fa-sign-in fa-lg fa-fw"></i>{{ __('Ingresar') }}</button>
         </div>
     </form>
-    
+
 </div>
 @endsection

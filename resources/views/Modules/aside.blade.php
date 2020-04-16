@@ -14,4 +14,8 @@
 <li><a class="app-menu__item {{isActive('users')}}" href="{{route('users.index')}}">
     <img src="/images/users.svg" alt="" width="25px">&nbsp;
     <span class="app-menu__label">Users</span></a></li>
+
+    <li><a class="app-menu__item {{isActive('prices')}}" href="{{route('prices.index')}}">
+        <img src="/images/price.svg" alt="" width="25px">&nbsp;
+        <span class="app-menu__label">Prices</span></a></li>
 </ul>
