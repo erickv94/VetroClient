@@ -44,12 +44,8 @@ Users
                                 <span v-else>Email no disponible</span>
                             </td>
                             <td>
-                                <span v-if="usuario.permissions.length > 0">
-                                    <ul>
-                                        <li v-for="permission in usuario.permissions">
-                                            @{{permission.name}}
-                                        </li>
-                                    </ul>
+                                <span v-if="usuario.permissions.length > 0" >     
+                                    <small class="badge badge-pill badge-success"  v-for="permission in usuario.permissions"> @{{permission.description}}</small>
                                 </span>
                                 <span v-else>Permissions Not Available</span>
                             </td>
