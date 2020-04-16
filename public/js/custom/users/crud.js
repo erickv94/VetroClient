@@ -15,7 +15,8 @@ new Vue({
             'from': 0,
             'to': 0
         },
-        permissionsAvaible:[],
+        verContra: false,
+        changePassword: '',
         newUsuario: {
             'name':null,
             'username':null,
@@ -25,10 +26,10 @@ new Vue({
         },
 
         fillUsuario:{
-            'nombre':null,
-            'usuario':null,
+            'name':null,
+            'username':null,
             'email': null,
-            'rol':null
+            'permissions':[],
         },
 
         errors:{},
@@ -90,6 +91,7 @@ new Vue({
             let url = 'users';
             axios.post(url, this.newUsuario)
                 .then(response => {
+
                     this.getUsuarios();
 
                     this.errors = {};
@@ -101,7 +103,7 @@ new Vue({
                         $('#create').modal('hide');
                         toastr.success('New User created success');
                     },5000);
-
+                     
                     this.newUsuario=  {
                         'name':null,
                         'username':null,
@@ -132,25 +134,37 @@ new Vue({
         showUsuario: function(usuario){
             this.fillUsuario={
                 'id':usuario.id,
-                'nombre':usuario.nombre,
-                'usuario':usuario.usuario,
+                'name':usuario.name,
+                'username':usuario.username,
                 'email': usuario.email,
-                'rol':usuario.roles[0].slug
+                'permissions':usuario.permissions
             }
 
             this.errors={};
 
           $("#edit").modal('show');
-        }
-        ,
+        },
+        changeContra: function(){
+            this.verContra = !this.verContra
+            if(!this.verContra){
+                this.changePassword = ''
+            }
+        },
         updateUsuario: function(){
-
+            if(this.verContra){
+                this.fillUsuario ={
+                ...this.fillUsuario,
+                'password' : this.changePassword
+                }
+            };
+            console.log(this.fillUsuario);
             let url='users/update/'+this.fillUsuario.id;
             axios.put(url, this.fillUsuario ).then((response)=>{
                 this.getUsuarios();
                 this.errors = {};
                 this.usuarioActual=response.data.respuesta;
-                toastr.success(response.data.respuesta);
+                toastr.success('New User updated success');
+                $("#edit").modal('hide');
             })
             .catch((error)=>{
                 this.errors=error.response.data.errors

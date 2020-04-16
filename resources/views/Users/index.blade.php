@@ -36,7 +36,7 @@ Users
                         </tr>
                     </thead>
                     <tbody>
-                        <tr  v-for="usuario in usuarios">
+                        <tr v-for="usuario in usuarios">
                             <td>@{{ usuario.name }}</td>
                             <td>@{{ usuario.username }}</td>
                             <td>
@@ -55,7 +55,7 @@ Users
                                     <i v-if='usuario.habilitado' class="fa fa-unlock icon-expe"></i>
                                     <i v-else class="fa fa-lock icon-expe"></i>
                                 </a>
-                                <a class="btn btn-outline-primary mr-2"><i class="fa fa-eye icon-expe"></i></a>
+                                
                             </td>
                         </tr>
                     </tbody>

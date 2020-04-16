@@ -36,11 +36,6 @@
             <pre> </pre>
             </div>
             <div class="form-group">
-                <!--<select :class="['form-control', errors.permissions ? 'is-invalid' : '']" id="permissions" v-model=newUsuario.permissions>
-                  <option value selected></option>
-
-                    <option v-for="permission in permissions" :value='permission.slug'>@{{ permission.name }}</option>
-                </select>-->
                 <multiselect
                     :custom-label="customLabel"
                     :class="[ errors.permissions ? 'is-invalid' : '']"

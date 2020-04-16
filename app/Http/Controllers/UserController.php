@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserRequestUpdate;
 use Caffeinated\Shinobi\Models\Permission;
 
 class UserController extends Controller
@@ -50,9 +51,18 @@ class UserController extends Controller
 
     }
     
-    public function update(Request $request, User $user)
-    {
-        //
+     public function update(UserRequestUpdate $request, $id){
+        
+        $user=User::findOrFail($id);
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->username=$request->username;
+        if($request->password){
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        $user->revokePermissionTo($user->permissions);
+        $user->syncPermissions($request->permissions);
     }
 
     public function destroy(User $user)

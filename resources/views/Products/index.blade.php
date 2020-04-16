@@ -34,7 +34,7 @@ Products
                             <th>ID</th>
                             <th>Name</th>
                             <th>brand</th>
-                            <th>Acciones</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
