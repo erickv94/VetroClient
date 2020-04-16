@@ -63,7 +63,7 @@ class ProductController extends Controller
         $urlbase="https://vetro.vtexcommercestable.com.br/api/catalog_system/pvt/products/ProductGet/".$id;
         $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
         $product=json_decode($response->getBody());
-
+        //dd($product);
         return view('Products.edit',['product'=>$product]);
     }
 }

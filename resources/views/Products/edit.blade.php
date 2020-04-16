@@ -25,6 +25,47 @@ Edit Product
                     <button  id="clipboard" class="btn btn-outline-primary my-3 ml-2"> <i class="fa fa-clipboard" aria-hidden="true"></i> Copy to clipboard </button>
                     <a class="btn btn-outline-primary my-3 ml-2" target="_blank" href="https://vetro.myvtex.com/admin/Site/ProdutoForm.aspx?id={{$product->Id}}" ><i class="fa fa-globe" aria-hidden="true"></i> Go to Edit Product</a>
                 </div>
+                <pre></pre>
+                <div class="form-group" id="imagechange">
+                    <label for="edit">Edit Image</label>
+                   <div class="row">
+                       <div class="col-8">
+                            <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                            <label class="custom-file-label" for="validatedCustomFile">Choose img...</label>
+                        </div>
+                       </div>
+                       <div class="col-4">
+                           <button class="btn btn-primary btn-block" type="submit">Update Image</button>
+                       </div>
+                   </div>
+                </div>
+                 <pre></pre>
+                 <div class="form-group">
+                    <label for="edit">Edit PageTitle</label>
+                    <div class="row">
+                       <div class="col-8">
+                             <input type="text" name="pagetitle" class="form-control" value="{{ $product->Title}}">
+                       </div>
+                       <div class="col-4">
+                           <button class="btn btn-primary btn-block" type="submit">Update Title</button>
+                       </div>
+                   </div>
+                   
+                </div>
+                <pre></pre>
+                 <div class="form-group">
+                    <label for="edit">Edit MetaDescription</label>
+                    <div class="row">
+                       <div class="col-8">
+                              <textarea class="form-control" id="metaDescription"  name="metaDescription" rows="4">{{$product->MetaTagDescription}}</textarea>
+                       </div>
+                       <div class="col-4">
+                           <button class="btn btn-primary btn-block" type="submit">Update MetaDescription</button>
+                       </div>
+                   </div>
+                </div>
+               
             </div>
     </div>
 </div>
@@ -74,7 +115,9 @@ Edit Product
     })
 
 
+
 </script>
+
 
 @endsection
 
