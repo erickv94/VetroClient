@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\ProductLinked;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+
 
 class PriceController extends Controller
 {
     public function loadData(Request $request){
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
 		$headers = [
 	        'content-type' => 'application/json',
 	        'Authorization' =>  'Basic '.env('NEXUS_KEY')
@@ -39,7 +41,7 @@ class PriceController extends Controller
     public function checkPrices(Request $request, $id){
         $product= ProductLinked::where('code',$id)->first();
 
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
 		$headers = [
 	        'content-type' => 'application/json',
 	        'Authorization' =>  'Basic '.env('NEXUS_KEY')
@@ -58,10 +60,10 @@ class PriceController extends Controller
 
             "headers"=>$headers
             ]);
+
             $data=json_decode($response->getBody());
             $data=$data->result[0];
-
-
+            // dd($data);
         return view('prices.check',["data"=>$data]);
     }
 

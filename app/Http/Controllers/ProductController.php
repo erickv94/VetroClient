@@ -9,7 +9,7 @@ class ProductController extends Controller
 {
      public function index(Request $request)
     {
-    	$client = new \GuzzleHttp\Client();
+    	$client = new Client();
 		$headers = [
 	        'content-type' => 'application/json',
 	        'accept'     => 'application/json',
@@ -52,7 +52,7 @@ class ProductController extends Controller
     }
 
     public function edit(Request $request, $id){
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
 		$headers = [
 	        'content-type' => 'application/json',
 	        'accept'     => 'application/json',

@@ -5,6 +5,7 @@ Products
 @endsection
 @section('custom_css')
 <link rel="stylesheet" href="/css/custom.css">
+
 <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endsection
 
@@ -49,7 +50,13 @@ Products
     $(document).ready(function() {
       $('#dataTable').DataTable({
         "ajax":"{{route('prices.load_data')}}",
-        "procesing":true,
+        "processing":true,
+        "language":
+            {
+
+                "url":"https://cdn.datatables.net/plug-ins/1.10.20/i18n/Romanian.json",
+
+        },
         "columnDefs": [ {
             "targets": -1,
             "data": "download_link",
