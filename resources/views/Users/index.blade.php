@@ -44,7 +44,7 @@ Users
                                 <span v-else>Email no disponible</span>
                             </td>
                             <td>
-                                <span v-if="usuario.permissions.length > 0" >     
+                                <span v-if="usuario.permissions.length > 0" >
                                     <small class="badge badge-pill badge-success"  v-for="permission in usuario.permissions"> @{{permission.description}}</small>
                                 </span>
                                 <span v-else>Permissions Not Available</span>
@@ -55,7 +55,7 @@ Users
                                     <i v-if='usuario.habilitado' class="fa fa-unlock icon-expe"></i>
                                     <i v-else class="fa fa-lock icon-expe"></i>
                                 </a>-->
-                                
+
                             </td>
                         </tr>
                     </tbody>
@@ -82,8 +82,8 @@ Users
                     </li>
                 </ul>
             </nav>
-            @include('users.partials.create')
-            @include('users.partials.edit')
+            @include('Users.partials.create')
+            @include('Users.partials.edit')
         </div>
 
     </div>
