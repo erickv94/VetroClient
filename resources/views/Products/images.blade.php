@@ -31,8 +31,8 @@ Edit Image SKU
                     <form method="POST" enctype="multipart/form-data" id="upload_image_form" action="javascript:void(0)" id="form-{{$item->id}}" >
 			    			 <input type="hidden" id='id' name="id" value="{{ $item->id }}">
 			    			<div class="custom-file">
-	                            <input type="file" class="custom-file-input" id="image-{{$item->id}}" required>
-	                            <label class="custom-file-label" for="validatedCustomFile">Choose img...</label>
+	                            <input type="file" class="custom-file-input" id="image-{{$item->id}}" required onchange="changeImage(event)">
+	                            <label class="custom-file-label" for="validatedCustomFile" >Choose img...</label>
 	                         </div>
 	                          <div class="row justify-content-center mt-2">
 	                          	<div class="col-4">
@@ -49,6 +49,11 @@ Edit Image SKU
  <script >
  	btn = document.getElementById("sendImage");
  	const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+
+    function changeImage(event){
+        let path = event.target.value;
+        let label = event.target.nextElementSibling.innerHTML = path;
+    }
     //html loader
     const spinnerHTML='<i class="fa fa-refresh fa-spin"></i> Loading'
  	function updatedImage (event,id){
