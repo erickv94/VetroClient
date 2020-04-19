@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -70,7 +71,6 @@ class ProductController extends Controller
         $urlbase="https://vetro.vtexcommercestable.com.br/api/catalog_system/pvt/products/ProductGet/".$id;
         $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
         $product=json_decode($response->getBody());
-        // dd($product);
         return view('Products.edit',['product'=>$product]);
     }
 
@@ -189,12 +189,83 @@ class ProductController extends Controller
 
 
 
-    public function imagesEdit(Request $request){
+    public function imagesEdit(Request $request,$id){
+        //first request
+        $client = new Client();
+        $headers=[
+            'content-type' => 'application/json',
+            'accept'     => 'application/json',
+            'X-VTEX-API-AppKey'      => env('API_KEY'),
+            'X-VTEX-API-AppToken' =>  env('API_TOKEN')
+        ];
+        $urlbase="https://vetro.vtexcommercestable.com.br/api/catalog_system/pvt/products/ProductGet/".$id;
+        $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
+        $product=json_decode($response->getBody());
+        //dd($product->LinkId);
 
-        return view('Products.images');
+        //second request
+        $urlSearch = "https://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search/". $product->LinkId ."/p";
+        $responseSearch = $client->request('GET',$urlSearch, ["headers"=>$headers]);
+        $productSearch = json_decode($responseSearch->getBody());
+        $itemsSku = $productSearch[0]->items;
+
+        $items=[];
+        $elements=[];
+        $name = $product->Name;
+        foreach($itemsSku as $item)
+        {
+            $elements['id']=$item->itemId;
+            $elements['name']=$item->name;
+            $elements['url'] = $item->images[0]->imageUrl;
+            $elements['updated'] = $item->images[0]->imageLastModified;
+            array_push($items,(object) $elements);
+        }
+        //dd($items);
+
+        return view('Products.images', compact('items','name'));
     }
 
+    public function updateImages(Request $request){
+        //Cloudinary
+        \Cloudinary::config(array(
+            "cloud_name" =>  env('API_CLOUDINARY_NAME'),
+            "api_key" =>  env('API_CLOUDINARY_KEY'),
+            "api_secret" => env('API_CLOUDINARY_SECRET'),
+        ));
 
+        $file_img = \Cloudinary\Uploader::upload($request->image);
 
+        $image = Image::create([
+            'public_id' => $file_img['public_id'],
+            'url' => $file_img['url'],
+        ]);
+
+        //first request
+        $client = new Client();
+        $headers=[
+            'content-type' => 'application/json',
+            'accept'     => 'application/json',
+            'X-VTEX-API-AppKey'      => env('API_KEY'),
+            'X-VTEX-API-AppToken' =>  env('API_TOKEN')
+        ];
+        $urlbase="https://vetro.vtexcommercestable.com.br/api/catalog/pvt/stockkeepingunit/". $request->id. "/file";
+        $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
+        $images=json_decode($response->getBody());
+        $imageObj = $images[0];
+        $imageObj->Url = $image->url;
+        $imageObj->Text = $imageObj->Name;
+
+        //second request updated
+        $urlUpdate="https://vetro.vtexcommercestable.com.br/api/catalog/pvt/stockkeepingunit/" . $imageObj->SkuId. "/file/" . $imageObj->Id;
+
+        $response = $client->request('PUT',$urlUpdate,
+            [
+            "json"=> (array) $imageObj,
+            "headers"=>$headers
+            ]);
+
+        return response()->json((array) json_encode($response->getBody()));
+
+    }
 
 }
