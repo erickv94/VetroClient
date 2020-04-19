@@ -38,7 +38,7 @@ class UserController extends Controller
     }
     public function index()
     {
-        return view('users.index');
+        return view('Users.index');
     }
     public function store(UserRequest $request){
         $user=new User;
@@ -52,9 +52,9 @@ class UserController extends Controller
         return response()->json(['usuario'=>$user->usuario]);
 
     }
-    
+
     public function update(UserRequestUpdate $request, $id){
-        
+
         $user=User::findOrFail($id);
         $user->name=$request->name;
         $user->email=$request->email;
@@ -72,11 +72,11 @@ class UserController extends Controller
     public function profile($id){
 
         $user=User::findOrFail($id);
-        
-        return view('users.profile',compact('user'));
+
+        return view('Users.profile',compact('user'));
     }
     public function updateprofile(Request $request,$id){
-        
+
         $user=User::findOrFail($id);
         $user->name=$request->name;
         $user->username=$request->username;
@@ -86,12 +86,12 @@ class UserController extends Controller
             'currentPassword' => 'nullable|string',
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ];
-        
+
         $this->validate($request,$rules);
 
         if(!empty($request->currentPassword)){
             $passwordActual = Hash::make($request->currentPassword);
-            
+
             if(Hash::check($request->currentPassword, $user->password)){
                 if(!empty($request->password)){
                     $user->password = Hash::make($request->password);
@@ -110,7 +110,7 @@ class UserController extends Controller
             $user->save();
             return back()->with('info','User Updated with success');
         }
-      
-       
+
+
     }
 }
