@@ -19,8 +19,8 @@ class TestController extends Controller
           );
           $url="http://webservice-vetro.vtexcommerce.com.br/service.svc?wsdl";
         $client = new SoapClient($url,$options);
-        $response=$client->ImageServiceInsertUpdate(['urlImage'=>"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ6Lu0obmddsQX3JELe04hUs_hSelsmU8_W1yn5ztgdAk5SJC7D",
-        'imageName'=>'Jar',
+        $response=$client->ImageServiceInsertUpdate(['urlImage'=>"https://images.theconversation.com/files/319375/original/file-20200309-118956-1cqvm6j.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop",
+        'imageName'=>'dog',
         'stockKeepingUnitId'=>'651'
         ]);
         dd($response);

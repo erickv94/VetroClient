@@ -20,6 +20,14 @@ Route::get('/', function () {
 Route::group(['prefix' => 'products','middleware'=>['auth']], function () {
     Route::get('/', 'ProductController@index')->name('products.index');
     Route::get('/edit/{id}', 'ProductController@edit')->name('products.edit');
+    Route::post('/update/description','ProductController@updateDescription')->name('products.update.desc');
+    Route::post('/update/metadescription','ProductController@updateMeta')->name('products.update.meta');
+    Route::post('/update/keywords','ProductController@updateKeyword')->name('products.update.keywords');
+    Route::post('/update/title','ProductController@updateTitle')->name('products.update.title');
+
+
+
+
 });
 
 Auth::routes();
@@ -34,6 +42,7 @@ Route::group(['prefix'=>'users','middleware'=>['auth']],function (){
 	Route::post('/','UserController@store')->name('users.store');
 	Route::get('/profile/{id}','UserController@profile')->name('editprofile');
 	Route::put('/updateprofile/{id}','UserController@updateprofile')->name('updateprofile');
+
 });
 
 
