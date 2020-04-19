@@ -24,9 +24,7 @@ Route::group(['prefix' => 'products','middleware'=>['auth']], function () {
     Route::post('/update/metadescription','ProductController@updateMeta')->name('products.update.meta');
     Route::post('/update/keywords','ProductController@updateKeyword')->name('products.update.keywords');
     Route::post('/update/title','ProductController@updateTitle')->name('products.update.title');
-
-
-
+    Route::get('/update/images','ProductController@imagesEdit')->name('products.images');
 
 });
 

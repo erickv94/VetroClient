@@ -186,4 +186,15 @@ class ProductController extends Controller
         return response()->json((array) json_encode($response->getBody()));
 
     }
+
+
+
+    public function imagesEdit(Request $request){
+
+        return view('Products.images');
+    }
+
+
+
+
 }

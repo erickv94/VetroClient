@@ -49,6 +49,8 @@ Products
 
                           <td>
                           <a  class="btn btn-info btn-xs text-light" href="{{ route('products.edit', ['id'=>$product->productId]) }}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                          <a  class="btn btn-info btn-xs text-light" href="{{ route('products.images',['id'=>$product->productId])}}"><i class="fa fa-file-image-o" aria-hidden="true"></i> update image <br/> sku</a>
+
                             {{-- <a  class="btn btn-primary btn-xs text-light" ><i class="fa fa-eye" aria-hidden="true"></i>See</a> --}}
                           </td>
                         </tr>
