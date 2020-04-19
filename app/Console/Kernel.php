@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Image;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,6 +26,21 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        $schedule->call(function(){
+            \Cloudinary::config(array(
+                "cloud_name" =>  env('API_CLOUDINARY_NAME'),
+                "api_key" =>  env('API_CLOUDINARY_KEY'),
+                "api_secret" => env('API_CLOUDINARY_SECRET'),
+            ));
+
+            $images = Image::all();
+            foreach($images as $image){
+                $idImage = $image->public_id;
+                \Cloudinary\Uploader::destroy($idImage);
+                $image->delete();
+            }
+        })->hourly();
     }
 
     /**

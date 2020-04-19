@@ -36,7 +36,7 @@ Edit Image SKU
 	                         </div>
 	                          <div class="row justify-content-center mt-2">
 	                          	<div class="col-4">
-	                          		<button class="btn btn-outline-primary btn-block " id="sendImage" onclick="updatedImage(event,{{$item->id}})"><i class="fa fa-upload" aria-hidden="true" ></i> Update Image</button>
+                                  <button class="btn btn-outline-primary btn-block " id="sendImage-{{$item->id}}" onclick="updatedImage(event,{{$item->id}})"><i class="fa fa-upload" aria-hidden="true" ></i> Update Image</button>
 	                          	</div>
                               </div>
                         </form>
@@ -47,7 +47,7 @@ Edit Image SKU
 		@endforeach
     </div>
  <script >
- 	btn = document.getElementById("sendImage");
+
  	const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
 
     function changeImage(event){
@@ -57,6 +57,7 @@ Edit Image SKU
     //html loader
     const spinnerHTML='<i class="fa fa-refresh fa-spin"></i> Loading'
  	function updatedImage (event,id){
+        btn = document.getElementById("sendImage-"+id);
         event.preventDefault();
         const imageOriginal = document.getElementById("image-"+id).files[0];
         var reader = new FileReader();

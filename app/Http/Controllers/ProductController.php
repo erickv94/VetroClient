@@ -238,8 +238,7 @@ class ProductController extends Controller
         $image = Image::create([
             'public_id' => $file_img['public_id'],
             'url' => $file_img['url'],
-        ]);
-
+        ]);/*
         //first request
         $client = new Client();
         $headers=[
@@ -264,7 +263,8 @@ class ProductController extends Controller
             "headers"=>$headers
             ]);
 
-        return response()->json((array) json_encode($response->getBody()));
+        return response()->json((array) json_encode($response->getBody()));*/
+        return response()->json('Hecho');
 
     }
 
