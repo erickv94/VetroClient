@@ -1,4 +1,4 @@
-@extends('layout.templateauth')
+@extends('Layout.templateauth')
 
 @section('content')
 <div class="logo">
