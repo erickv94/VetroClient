@@ -1,25 +1,12 @@
-@extends('Layout.layout')
-
-@section('titulo')
-Bienvenido
-@endsection
-
-@section('title_content')
+@extends('Layout.layout') @section('titulo') Bienvenido @endsection @section('title_content')
 <h1><i class="fa fa-dashboard"></i>Home</h1>
-@endsection
-
-@section('breadcrumb')
+@endsection @section('breadcrumb')
 <li class="breadcrumb-item"><a href="">Home</a></li>
-@endsection
-
-@section('content')
-    <div class="tile">
-            <div class="tile-body">
-              <h3>Bienvenido a su Cuenta {{ Auth::user()->name }} </h3>
-            </div>
+@endsection @section('content')
+<div class="tile">
+    <div class="tile-body">
+        <h3>Bienvenido a su Cuenta {{ Auth::user()->name }} </h3>
     </div>
+</div>
 
-@endsection
-
-@section('custom_javas')
-@endsection
+@endsection @section('custom_javas') @endsection

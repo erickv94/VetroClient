@@ -18,49 +18,41 @@ class PermissionSeeder extends Seeder
         Permission::create([
 	        'name' => 'products.index',
 	        "slug"=>"products.index",
-	        'description' => 'Permission to see all products'
-        ]); #1
-        Permission::create([
-	        'name' => 'products.edit.text',
-	        "slug"=>"products.edit.text",
-	        'description' => 'Permission to edit products'
-        ]); #2
-        Permission::create([
-	        'name' => 'products.insert.image',
-	        "slug"=>"products.insert.image",
-	        'description' => 'Permission to insert an image'
-        ]); #3
-        Permission::create([
-	        'name' => 'products.insert.watermark',
-	        "slug"=>"products.insert.watermark",
-	        'description' => 'Permission to insert a watermark to images'
-        ]); #4
-        Permission::create([
-        	'name' => 'products.edit.image',
-        	"slug"=>"products.edit.image",
-        	'description' => 'Permission to edit an image'
+	        'description' => 'see all products'
         ]);
-        #permission users
         Permission::create([
-	        'name' => 'users.index',
-	        "slug"=>"users.index",
-	        'description' => 'Permission to see all users'
-        ]); #5
+	        'name' => 'products.text.edit',
+	        "slug"=>"products.text.edit",
+	        'description' => 'edit text'
+        ]);
         Permission::create([
-	        'name' => 'users.show',
-	        "slug"=>"users.show",
-	        'description' => 'Permission to create users'
-        ]); #6
+	        'name' => 'products.image.edit',
+	        "slug"=>"products.image.edit",
+	        'description' => 'edit image'
+        ]);
+        #permission logs
         Permission::create([
-	        'name' => 'users.show.log',
-	        "slug"=>"users.show.log",
-	        'description' => 'Permission to see logs of users'
-        ]); #7
+	        'name' => 'logs.check',
+	        "slug"=>"logs.check",
+	        'description' => 'check user logs'
+        ]);
+        #permission prices
         Permission::create([
-	        'name' => 'users.edit',
-	        "slug"=>"users.edit",
-	        'description' => 'Permission to edit users'
-        ]); #8
+	        'name' => 'prices.index',
+	        "slug"=>"prices.index",
+	        'description' => 'see prices'
+        ]);
+        Permission::create([
+	        'name' => 'prices.edit',
+	        "slug"=>"prices.edit",
+	        'description' => 'edit price'
+        ]);
+        Permission::create([
+	        'name' => 'scrape',
+	        "slug"=>"scrape",
+	        'description' => 'set urls to scrape'
+        ]);
+
 
     }
 }
