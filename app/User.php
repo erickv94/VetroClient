@@ -58,5 +58,9 @@ class User extends Authenticatable
         };
         $this->givePermissionTo($slugs);
     }
+    public function logs()
+    {
+    	return $this->hasMany(Log::class);
+    }
 }
 

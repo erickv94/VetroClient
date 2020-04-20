@@ -5,7 +5,7 @@
 @endsection @section('content')
 <div class="tile">
     <div class="tile-body">
-        <h3>Bienvenido a su Cuenta {{ Auth::user()->name }} </h3>
+        <h3>Welcome {{ Auth::user()->name }} </h3>
     </div>
 </div>
 

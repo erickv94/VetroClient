@@ -28,4 +28,11 @@
             <span class="app-menu__label">Prices</span></a>
     </li>
     @endcan
+    @can('logs.check')
+    <li>
+        <a class="app-menu__item {{isActive('logs')}}" href="{{route('logs.index')}}">
+            <img src="/images/logs.svg" alt="" width="25px">&nbsp;
+            <span class="app-menu__label">Logs</span></a>
+    </li>
+    @endcan
 </ul>

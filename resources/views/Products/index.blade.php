@@ -17,6 +17,7 @@ Products
 @section('content')
     <div class="tile">
             <div class="tile-body">
+                  <h3 class="tile-title"><i class="fa fa-paw" aria-hidden="true"></i> Products</h3>
                 <form class="row mb-2 justify-content-center">
                     <div class="col-sm-5 ">
                         <input name='search' class="form-control" type="text" placeholder="Search" aria-label="Search" value="{{request('search')}}">

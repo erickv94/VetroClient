@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Image;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -71,6 +72,7 @@ class ProductController extends Controller
         $urlbase="https://vetro.vtexcommercestable.com.br/api/catalog_system/pvt/products/ProductGet/".$id;
         $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
         $product=json_decode($response->getBody());
+
         return view('Products.edit',['product'=>$product]);
     }
 
@@ -84,12 +86,18 @@ class ProductController extends Controller
                 'X-VTEX-API-AppKey'      => env('API_KEY'),
                 'X-VTEX-API-AppToken' =>  env('API_TOKEN')
             ];
-
+            
 
             $urlbase="https://vetro.vtexcommercestable.com.br/api/catalog_system/pvt/products/ProductGet/".$id;
             $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
             $product=json_decode($response->getBody());
             $product->Description=$request->post('description');
+
+            //create action
+            $user = Auth::user();
+            $user->logs()->create([
+                'action' => 'updated description product: ' . $product->Name   
+            ]);
 
             $urlUpdate="https://vetro.vtexcommercestable.com.br/api/catalog/pvt/product/".$id;
             $response = $client->request('PUT',$urlUpdate,
@@ -97,7 +105,6 @@ class ProductController extends Controller
                 "json"=> (array) $product,
                 "headers"=>$headers
                 ]);
-
             return response()->json((array) json_encode($response->getBody()));
     }
 
@@ -118,6 +125,12 @@ class ProductController extends Controller
         $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
         $product=json_decode($response->getBody());
         $product->MetaTagDescription=$request->post('meta');
+
+         //create action
+        $user = Auth::user();
+        $user->logs()->create([
+            'action' => 'updated metadescription product: ' . $product->Name   
+        ]);
 
         $urlUpdate="https://vetro.vtexcommercestable.com.br/api/catalog/pvt/product/".$id;
         $response = $client->request('PUT',$urlUpdate,
@@ -147,6 +160,12 @@ class ProductController extends Controller
         $product=json_decode($response->getBody());
         $product->KeyWords=$request->post('keyword');
 
+         //create action
+        $user = Auth::user();
+        $user->logs()->create([
+            'action' => 'updated keywords product: ' . $product->Name   
+        ]);
+
         $urlUpdate="https://vetro.vtexcommercestable.com.br/api/catalog/pvt/product/".$id;
         $response = $client->request('PUT',$urlUpdate,
             [
@@ -175,6 +194,12 @@ class ProductController extends Controller
         $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
         $product=json_decode($response->getBody());
         $product->Title=$request->post('title');
+
+        //create action
+        $user = Auth::user();
+        $user->logs()->create([
+            'action' => 'updated title product: ' . $product->Name   
+        ]);
 
         $urlUpdate="https://vetro.vtexcommercestable.com.br/api/catalog/pvt/product/".$id;
         $response = $client->request('PUT',$urlUpdate,
@@ -253,9 +278,16 @@ class ProductController extends Controller
         $imageObj = $images[0];
         $imageObj->Url = $image->url;
         $imageObj->Text = $imageObj->Name;
-
+        
+      
         //second request updated
         $urlUpdate="https://vetro.vtexcommercestable.com.br/api/catalog/pvt/stockkeepingunit/" . $imageObj->SkuId. "/file/" . $imageObj->Id;
+
+          //create action
+        $user = Auth::user();
+        $user->logs()->create([
+            'action' => 'updated image with name: ' . $imageObj->Name .' with Id SKU: ' . $imageObj->SkuId
+        ]);
 
         $response = $client->request('PUT',$urlUpdate,
             [

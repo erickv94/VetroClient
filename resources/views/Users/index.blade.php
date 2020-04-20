@@ -18,6 +18,7 @@ Users
     <div class="col-md-12" >
         <div class="tile"  id="crud" v-cloak>
             <div class="d-flex mb-2">
+                  <h3 class="tile-title"><i class="fa fa-paw" aria-hidden="true"></i> Users</h3>
                 <div class="float-right ml-auto">
                     <a class="btn btn-outline-success"  v-on:click.prevent="showCreate" href=""><i
                             class="fa fa-user-plus icon-expe"></i>Register</a>

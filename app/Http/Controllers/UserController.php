@@ -53,6 +53,11 @@ class UserController extends Controller
             $user->syncRoles($request->role);
         }
         $user->syncPermissions($request->permissions);
+        //create action
+       $user_auth = Auth::user();
+        $user_auth->logs()->create([
+            'action' => 'created user: ' . $user->name . ' with email: ' . $user->email 
+        ]);
         return response()->json(['usuario'=>$user->usuario]);
 
     }
@@ -63,6 +68,13 @@ class UserController extends Controller
         $user->name=$request->name;
         $user->email=$request->email;
         $user->username=$request->username;
+
+        //create action
+        $user_auth = Auth::user();
+        $user_auth->logs()->create([
+            'action' => 'updated user: ' . $user->name . ' with email: ' . $user->email 
+        ]);
+
         if($request->password){
             $user->password = Hash::make($request->password);
         }
@@ -96,6 +108,12 @@ class UserController extends Controller
         ];
 
         $this->validate($request,$rules);
+
+        //create action
+        $user_auth = Auth::user();
+        $user_auth->logs()->create([
+            'action' => 'updated profile user: ' . $user->name . ' with email: ' . $user->email 
+        ]);
 
         if(!empty($request->currentPassword)){
             $passwordActual = Hash::make($request->currentPassword);

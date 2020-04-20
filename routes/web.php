@@ -39,14 +39,19 @@ Route::group(['prefix'=>'users','middleware'=>['auth','has.role:admin']],functio
 	Route::get('/list','UserController@list')->name('users.list');
 	Route::put('/update/{id}','UserController@update')->name('users.update');
 	Route::post('/','UserController@store')->name('users.store');
-	Route::put('/updateprofile/{id}','UserController@updateprofile')->name('updateprofile');
 });
 
 Route::get('/profile/{id}','UserController@profile')->name('editprofile')->middleware('auth');
-
+Route::put('/updateprofile/{id}','UserController@updateprofile')->name('updateprofile')->middleware('auth');
 
 Route::group(['prefix' => 'prices','middleware'=>['auth','has.permission:prices.index']], function () {
     Route::get('/','PriceController@index')->name('prices.index');
     Route::get('/loadjson','PriceController@loadData')->name('prices.load_data');
     Route::get('/{id}','PriceController@checkPrices')->name('prices.check');
+});
+
+
+Route::group(['prefix' => 'logs','middleware'=>['auth','has.permission:logs.check']], function () {
+    Route::get('/', 'LogController@index')->name('logs.index');
+    Route::get('/show/{id}', 'LogController@show')->name('logs.show');
 });
