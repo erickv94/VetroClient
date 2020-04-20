@@ -88,45 +88,7 @@ Edit Product
 @section('custom_javas')
 <script src="https://cdn.ckeditor.com/4.14.0/standard-all/ckeditor.js"></script>
 <script src="/js/product/update_product.js"></script>
-<script>
 
-
-
-    // document.getElementById('clipboard').addEventListener('click',function(e){
-    //     var textarea= document.createElement('textarea');
-    //     textarea.value=ck_editor_obj.getData();
-    //     textarea.style.top='0';
-    //     textarea.style.left='0';
-    //     textarea.style.position='fixed';
-    //     document.body.appendChild(textarea);
-    //     textarea.focus();
-    //     textarea.select();
-    //     var successful = document.execCommand('copy');
-    //     console.log(successful);
-    //     textarea.remove();
-    //     toastr["success"]("HTML added to clipboard")
-    //     toastr.options = {
-    //         "closeButton": false,
-    //         "debug": false,
-    //         "newestOnTop": false,
-    //         "progressBar": false,
-    //         "positionClass": "toast-top-right",
-    //         "preventDuplicates": false,
-    //         "onclick": null,
-    //         "showDuration": "300",
-    //         "hideDuration": "1000",
-    //         "timeOut": "5000",
-    //         "extendedTimeOut": "1000",
-    //         "showEasing": "swing",
-    //         "hideEasing": "linear",
-    //         "showMethod": "fadeIn",
-    //         "hideMethod": "fadeOut"
-    //         }
-    // })
-
-
-
-</script>
 
 
 @endsection

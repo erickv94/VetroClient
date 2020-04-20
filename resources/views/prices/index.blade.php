@@ -26,7 +26,6 @@ Products
                     <thead>
                       <tr>
                         <th>Product</th>
-                        <th>Price B2C</th>
                         <th>Price B2B</th>
                         <th>Managed</th>
                         <th>Actions</th>
@@ -61,12 +60,11 @@ Products
             "targets": -1,
             "data": "download_link",
             "render": function ( data, type, full, meta ) {
-                    return '<a class="btn btn-info btn-xs text-light" href="/prices/'+data.id_produs+'"><i class="fa fa-eye" aria-hidden="true"></i> Check Prices</a>';     }
+                    return '<a class="btn btn-info btn-xs text-light" href="/prices/'+data.id_produs+'" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i> Check Prices</a>';     }
         }
         ],
         "columns":[
             {"data":"den_produs"},
-            {"data":"pret_vanzare_tva"},
             {"data":"pret_vanzare"},
             {"data":"den_gestiune"},
             {"data":null,}
