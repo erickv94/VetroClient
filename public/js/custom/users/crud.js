@@ -7,6 +7,8 @@ new Vue({
     data:{
         usuarios:[],
         permissions:[],
+        roles:[],
+        addRol:false,
         pagination: {
             'total': 0,
             'current_page': 0,
@@ -30,6 +32,7 @@ new Vue({
             'username':null,
             'email': null,
             'permissions':[],
+            'role':null
         },
 
         errors:{},
@@ -76,6 +79,7 @@ new Vue({
                 this.usuarios=response.data.users.data;
                 this.pagination=response.data.pagination;
                 this.permissions=response.data.permissions;
+                this.roles = response.data.roles;
             });
         },
         changePage: function(page) {
@@ -89,6 +93,18 @@ new Vue({
 
         createUser: function() {
             let url = 'users';
+            if(this.addRol){
+                this.newUsuario ={
+                    ...this.newUsuario,
+                    'role': 'admin',
+                    'permissions': []
+                }
+            }else{
+                this.newUsuario ={
+                    ...this.newUsuario,
+                    'role': null
+                }
+            }
             axios.post(url, this.newUsuario)
                 .then(response => {
 
@@ -96,40 +112,24 @@ new Vue({
 
                     this.errors = {};
                     this.usuarioActual=response.data.usuario;
-
-                    document.getElementById("showing-info").style.display='block';
                     setTimeout(()=>{
-                        document.getElementById("showing-info").style.display='none';
                         $('#create').modal('hide');
                         toastr.success('New User created success');
                     },5000);
-                     
+
                     this.newUsuario=  {
                         'name':null,
                         'username':null,
                         'email': null,
                         'password': null,
                         'permissions': null,
-
                     } ;
-
+                    this.addRol =false;
 			    }).catch(error => {
 
                     this.errors=error.response.data.errors
 
             	});
-        },
-
-        toggleUsuario: function(id){
-            let url='users/toggle/'+id;
-            axios.put(url).then((response)=>{
-                this.getUsuarios();
-
-                toastr.success(response.data.estado);
-            })
-            .catch((error)=>{
-                console.log(error);
-            });
         },
         showUsuario: function(usuario){
             this.fillUsuario={
@@ -137,9 +137,22 @@ new Vue({
                 'name':usuario.name,
                 'username':usuario.username,
                 'email': usuario.email,
-                'permissions':usuario.permissions
+                'permissions':usuario.permissions,
             }
-
+            this.addRol= false;
+            if(usuario.roles[0]){
+                this.addRol= true
+                this.fillUsuario = {
+                    ...this.fillUsuario,
+                    'role': 'admin'
+                }
+            }else{
+                this.addRol= false
+                this.fillUsuario = {
+                    ...this.fillUsuario,
+                    'role': null
+                }
+            }
             this.errors={};
 
           $("#edit").modal('show');
@@ -150,6 +163,17 @@ new Vue({
                 this.changePassword = ''
             }
         },
+        changeAdmin: function(){
+            this.addRol= !this.addRol
+            if(this.addRol){
+                this.newUsuario ={
+                    ...this.newUsuario,
+                    'role': 'admin',
+                    'permissions': []
+                }
+            }
+
+        },
         updateUsuario: function(){
             if(this.verContra){
                 this.fillUsuario ={
@@ -157,16 +181,29 @@ new Vue({
                 'password' : this.changePassword
                 }
             };
+            if(this.addRol){
+                this.fillUsuario ={
+                    ...this.fillUsuario,
+                    'role' : 'admin',
+                    'permissions': []
+                }
+            }else{
+                this.fillUsuario ={
+                    ...this.fillUsuario,
+                    'role' : null
+                }
+            }
             //console.log(this.fillUsuario);
             let url='users/update/'+this.fillUsuario.id;
             axios.put(url, this.fillUsuario ).then((response)=>{
                 this.getUsuarios();
                 this.errors = {};
                 this.usuarioActual=response.data.respuesta;
-                toastr.success('New User updated success');
+                toastr.success('User updated success');
                 $("#edit").modal('hide');
                 this.verContra = false;
                 this.changePassword = ''
+                this.addRol =false;
             })
             .catch((error)=>{
                 this.errors=error.response.data.errors

@@ -47,15 +47,12 @@ Users
                                 <span v-if="usuario.permissions.length > 0" >
                                     <small class="badge badge-pill badge-success"  v-for="permission in usuario.permissions"> @{{permission.description}}</small>
                                 </span>
-                                <span v-else>Permissions Not Available</span>
+                                <span v-if="usuario.roles.length > 0">
+                                    <small class="badge badge-pill badge-info"  v-for="role in usuario.roles"> @{{role.name}}</small>
+                                </span>
                             </td>
                             <td class="d-flex justify-content-center">
                                 <a class="btn btn-outline-info mr-2" v-on:click.prevent="showUsuario(usuario)"><i class="fa fa-pencil icon-expe"></i></a>
-                               <!-- <a class="btn btn-outline-warning mr-2" v-on:click.prevent="toggleUsuario(usuario.id)">
-                                    <i v-if='usuario.habilitado' class="fa fa-unlock icon-expe"></i>
-                                    <i v-else class="fa fa-lock icon-expe"></i>
-                                </a>-->
-
                             </td>
                         </tr>
                     </tbody>

@@ -16,12 +16,12 @@ class UserController extends Controller
 {
     public function list(Request $request){
         $users=User::orderby('id','DESC')
-                ->with('permissions')
-                ->filter($request->q)
+                ->with('permissions','roles')
                 ->rol($request->rol)
                 ->paginate(5);
 
         $permissions = Permission::all();
+        $roles = Role::all();
 
         return [
             'pagination' => [
@@ -33,7 +33,8 @@ class UserController extends Controller
                 'to'            => $users->lastItem(),
             ],
             'users' => $users,
-            'permissions'=>$permissions
+            'permissions'=>$permissions,
+            'roles' => $roles,
         ];
     }
     public function index()
@@ -48,13 +49,16 @@ class UserController extends Controller
         $password_created=$request->password;
         $user->password=Hash::make($password_created);
         $user->save();
+        if($request->role){
+            $user->syncRoles($request->role);
+        }
         $user->syncPermissions($request->permissions);
         return response()->json(['usuario'=>$user->usuario]);
 
     }
 
     public function update(UserRequestUpdate $request, $id){
-
+        //dd($request->all());
         $user=User::findOrFail($id);
         $user->name=$request->name;
         $user->email=$request->email;
@@ -63,8 +67,12 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
+        if($request->role){
+            $user->syncRoles($request->role);
+        }
         $user->revokePermissionTo($user->permissions);
         if(!empty($request->permissions)){
+            $user->removeRoles('admin');
             $user->syncPermissions($request->permissions);
         }
     }

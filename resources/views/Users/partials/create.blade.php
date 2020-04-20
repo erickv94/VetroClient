@@ -33,9 +33,24 @@
                         <div v-if='errors.password' class="form-control-feedback text-danger">@{{ errors.password[0] }}</div>
                             </div>
                     </div>
+            <pre></pre>
+            <div class="form-group" >
+                <div class="row">
+                    <div class="col-4 mr-0">
+                        <label class="control-label">Assign administrator?</label>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" name="role" v-on:click="changeAdmin" :checked="addRol">Admin
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <pre> </pre>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="!addRol">
                 <multiselect
                     :custom-label="customLabel"
                     :class="[ errors.permissions ? 'is-invalid' : '']"
@@ -48,18 +63,9 @@
 
             </div>
 
-            <div id="showing-info" style="display: none">
-                    <div class="form-group">
-                            <label class="control-label">Usuario</label>
-                            <input readonly :class="['form-control']"  type="text" id="usuarioActual" v-model="usuarioActual" aria-describedby="usuarioActualHelp">
-                            <small class="form-text text-muted" id="usuarioActualHelp">This user has already been created.</small>
-
-                    </div>
-            </div>
-
         <div class="modal-footer">
           <button class="btn btn-primary" type="submit">Register</button>
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" >Close</button>
         </div>
       </div>
     </div>
