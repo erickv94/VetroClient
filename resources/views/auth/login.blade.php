@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="logo">
-    <h1>VetroClient</h1>
+    <h1>Cauta vet</h1>
 </div>
 <div class="login-box">
     <form method="POST" action="{{ route('login') }}" class="login-form" >
         @csrf
-        <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Iniciar Sesión</h3>
+        <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Login</h3>
         <div class="form-group">
-            <label class="control-label">{{ __('Correo Electronico') }}</label>
+            <label class="control-label">Email</label>
             <input class="form-control @error('usuario') is-invalid @enderror @error('email') is-invalid @enderror"
                 name="email" value="{{ old('email')}}" required autocomplete="usuario" autofocus placeholder="Enter email">
 
@@ -27,7 +27,7 @@
 
         </div>
         <div class="form-group">
-            <label class="control-label">{{ __('Contraseña') }}</label>
+            <label class="control-label">Password</label>
             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
                 name="password" required autocomplete="current-password" placeholder="Enter password">
 
