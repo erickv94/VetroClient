@@ -132,6 +132,36 @@ class PriceController extends Controller
         }
 
 
-        return view('prices.check', compact('productSku','stockAvaible','priceB2C','priceWithDiscount','percentDiscount'));
+        return view('prices.check', compact('productSku','stockAvaible','priceB2C','priceWithDiscount','percentDiscount','id'));
+    }
+
+
+    public function updateUrls(Request $request, $id){
+        $pullOfUrls=ProductLinked::where('code',$id)->first();
+        $site=$request->post('site');
+        $url= $request->post('url');
+
+        if($pullOfUrls){
+            $pullOfUrls[$site]=$url;
+            $pullOfUrls->save();
+        }
+        else{
+            $newPullOfUrls=new ProductLinked();
+            $newPullOfUrls[$site]=$url;
+            $newPullOfUrls->code=$id;
+            $newPullOfUrls->save();
+        }
+
+       return response()->json("URL saved on ".$site, 200);
+    }
+
+    public function getUrl(Request $request, $id){
+        $pullOfUrls=ProductLinked::where('code',$id)->first();
+        $site=$request->post('site');
+
+        $url=$pullOfUrls[$site]??'';
+
+        return response()->json($url,200);
+
     }
 }

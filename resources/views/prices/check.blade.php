@@ -32,10 +32,10 @@ Check prices
             <div class="info">
                 <h4>Price B2C</h4>
                 <p><b>@if ($priceB2C)
-                    {{ $priceB2C }} RON
-                @else
-                    Product not available in store
-                @endif</b></p>
+                        {{ $priceB2C }} RON
+                        @else
+                        Product not available in store
+                        @endif</b></p>
             </div>
         </div>
     </div>
@@ -48,8 +48,8 @@ Check prices
             <div class="info">
                 <h4>Price with discount</h4>
                 <p><b>
-                    {{ $priceWithDiscount }} RON
-                </b></p>
+                        {{ $priceWithDiscount }} RON
+                    </b></p>
             </div>
         </div>
     </div>
@@ -60,8 +60,8 @@ Check prices
             <div class="info">
                 <h4>Percent discount</h4>
                 <p><b>
-                    {{ $percentDiscount*100 }} %
-                </b></p>
+                        {{ $percentDiscount*100 }} %
+                    </b></p>
             </div>
         </div>
     </div>
@@ -91,7 +91,8 @@ Check prices
                         <td>{{ $stock->data_expirare }}</td>
                         <td>{{ $stock->cantitate }}</td>
                         <td>{{ $stock->pret_achizitie }} RON</td>
-                        <td>{{round(($productSku->pret_vanzare-$stock->pret_achizitie)/$productSku->pret_vanzare,2)}}</td>
+                        <td>{{round(($productSku->pret_vanzare-$stock->pret_achizitie)/$productSku->pret_vanzare,2)}}
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -108,8 +109,85 @@ Check prices
 
 </div>
 {{-- <h4 class="text-center"> <i class="fa fa-info-circle" aria-hidden="true"></i> Product information </h4> --}}
+<div class="row">
+
+@if ($priceB2C)
+
+<div class="col-md-6">
+    <div class="tile">
+        <div class="tile-title-w-btn">
+            <h3 class="title">Price From PetMart</h3>
+            <p><button class="btn btn-primary icon-btn" id="url-1" data-site='petmart'><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
+        </div>
+        <div class="tile-body">
+
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-6">
+    <div class="tile">
+        <div class="tile-title-w-btn">
+            <h3 class="title">Price From EMAG</h3>
+            <p><button class="btn btn-primary icon-btn" id="url-2" data-site='umag'><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
+        </div>
+        <div class="tile-body">
+
+        </div>
+    </div>
+
 
 </div>
+
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="tile">
+            <div class="tile-title-w-btn">
+              <h3 class="title">Price From Pentruanimale</h3>
+              <p><button class="btn btn-primary icon-btn" id="url-3" data-site='petruanimale'><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
+            </div>
+            <div class="tile-body">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+        <div class="tile">
+            <div class="tile-title-w-btn">
+              <h3 class="title">Price From Zooplus</h3>
+              <p><button class="btn btn-primary icon-btn"><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
+            </div>
+            <div class="tile-body">
+                Functionality not available yet
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endif
+
+<div id="Modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+    </div>
+  </div>
 @section('custom_javas')
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -119,7 +197,28 @@ Check prices
             "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Romanian.json",
         }
     });
+    const id= "{{$id}}";
+    const get_url='/prices/geturl';
+    const post_url='/prices/posturl';
 
+    document.getElementById('url-1').addEventListener('click',function(e){
+        const site=e.target.getAttribute('data-site');
+        $('#Modal').modal('show');
+    });
+
+    document.getElementById('url-2').addEventListener('click',function(e){
+        const site=e.target.getAttribute('data-site');
+        $('#Modal').modal('show');
+    })
+
+    document.getElementById('url-3').addEventListener('click',function(e){
+        const site=e.target.getAttribute('data-site');
+        fetch(`${get_url}/${id}`).
+        then(res=> res.json()).
+        then(data=> console.log(data))
+        $('#Modal').modal('show');
+
+    });
 </script>
 
 

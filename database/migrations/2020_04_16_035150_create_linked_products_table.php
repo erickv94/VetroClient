@@ -16,10 +16,11 @@ class CreateLinkedProductsTable extends Migration
         Schema::create('product_links', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('code',6);
-            $table->string('first_site',400)->nullable();
-            $table->string('second_site',400)->nullable();
-            $table->string('third_site',400)->nullable();
+            $table->string('code',10);
+            $table->string('petmart',400)->nullable();
+            $table->string('emag',400)->nullable();
+            $table->string('pentruanimale',400)->nullable();
+            $table->string('zooplus',400)->nullable();
         });
     }
 
