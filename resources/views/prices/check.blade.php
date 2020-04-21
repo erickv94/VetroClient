@@ -394,8 +394,17 @@ Check prices
             .then(res=> res.json())
             .then(data=> {
                 toastr.success(data.message);
-                const text =`<h4>Competition price</h4><p><b> ${data.priceCompetition}</b></p>`;
-                document.getElementById(`${data.site}-id`).innerHTML=text;
+                let text=`<p><b>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
+                        </b></p>`;
+                console.log(data);
+                if(data.priceCompetition){
+                    text =`<h4>Competition price</h4><p><b> ${data.priceCompetition}</b></p>`;
+                    document.getElementById(`${data.site}-id`).innerHTML=text;
+                }
+                else{
+                    document.getElementById(`${data.site}-id`).innerHTML=text;
+                }
                 $('#Modal').modal('hide');
             })
             .catch(error=>{

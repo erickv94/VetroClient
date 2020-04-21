@@ -139,9 +139,9 @@ class PriceController extends Controller
         // applying scraping to sites
         $linkedList= ProductLinked::where('code',$id)->first();
 
-        $priceEmag='';
-        $pricePetmart='';
-        $pricePetru='';
+        $priceEmag=null;
+        $pricePetmart=null;
+        $pricePetru=null;
 
         if($linkedList){
             $priceEmag=$this->getValueFromEMAG($linkedList->emag??'');
@@ -202,7 +202,7 @@ class PriceController extends Controller
 
 
     public function getValueFromPetmart($url){
-        $price='';
+        $price=null;
         $client=new \Goutte\Client;
         try{
             $crawler = $client->request('GET', $url);
@@ -220,7 +220,7 @@ class PriceController extends Controller
 
 
     public function getValueFromEMAG($url){
-        $price='';
+        $price=null;
         $client=new \Goutte\Client;
         try{
             $crawler = $client->request('GET', $url);
@@ -239,7 +239,7 @@ class PriceController extends Controller
     }
 
     public function getValueFromPentruAnimale($url){
-        $price='';
+        $price=null;
         $client=new \Goutte\Client;
 
         try{
