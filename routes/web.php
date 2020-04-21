@@ -49,7 +49,7 @@ Route::group(['prefix' => 'prices','middleware'=>['auth','has.permission:prices.
     Route::get('/loadjson','PriceController@loadData')->name('prices.load_data');
     Route::get('/{id}','PriceController@checkPrices')->name('prices.check');
     Route::get('/geturl/{id}','PriceController@getUrl')->name('prices.geturl');
-    Route::get('/posturl/{id}','PriceController@UpdateUrls')->name('prices.posturl');
+    Route::post('/posturl/{id}','PriceController@UpdateUrls')->name('prices.posturl');
 
 });
 

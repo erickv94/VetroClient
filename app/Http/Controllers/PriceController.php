@@ -157,10 +157,9 @@ class PriceController extends Controller
 
     public function getUrl(Request $request, $id){
         $pullOfUrls=ProductLinked::where('code',$id)->first();
-        $site=$request->post('site');
+        $site=$request->get('site');
 
         $url=$pullOfUrls[$site]??'';
-
         return response()->json($url,200);
 
     }

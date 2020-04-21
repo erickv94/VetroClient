@@ -111,42 +111,45 @@ Check prices
 {{-- <h4 class="text-center"> <i class="fa fa-info-circle" aria-hidden="true"></i> Product information </h4> --}}
 <div class="row">
 
-@if ($priceB2C)
+    @if ($priceB2C)
 
-<div class="col-md-6">
-    <div class="tile">
-        <div class="tile-title-w-btn">
-            <h3 class="title">Price From PetMart</h3>
-            <p><button class="btn btn-primary icon-btn" id="url-1" data-site='petmart'><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
-        </div>
-        <div class="tile-body">
+    <div class="col-md-6">
+        <div class="tile">
+            <div class="tile-title-w-btn">
+                <h3 class="title">Price From PetMart</h3>
+                <p><button class="btn btn-primary icon-btn" id="url-1" data-site='petmart'><i
+                            class="fa fa-pencil"></i>Add/Edit URL</button></p>
+            </div>
+            <div class="tile-body">
 
-        </div>
-    </div>
-</div>
-
-
-<div class="col-md-6">
-    <div class="tile">
-        <div class="tile-title-w-btn">
-            <h3 class="title">Price From EMAG</h3>
-            <p><button class="btn btn-primary icon-btn" id="url-2" data-site='umag'><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
-        </div>
-        <div class="tile-body">
-
+            </div>
         </div>
     </div>
 
 
-</div>
+    <div class="col-md-6">
+        <div class="tile">
+            <div class="tile-title-w-btn">
+                <h3 class="title">Price From EMAG</h3>
+                <p><button class="btn btn-primary icon-btn" id="url-2" data-site='emag'><i
+                            class="fa fa-pencil"></i>Add/Edit URL</button></p>
+            </div>
+            <div class="tile-body">
+
+            </div>
+        </div>
+
+
+    </div>
 
 </div>
 <div class="row">
     <div class="col-md-6">
         <div class="tile">
             <div class="tile-title-w-btn">
-              <h3 class="title">Price From Pentruanimale</h3>
-              <p><button class="btn btn-primary icon-btn" id="url-3" data-site='petruanimale'><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
+                <h3 class="title">Price From Pentruanimale</h3>
+                <p><button class="btn btn-primary icon-btn" id="url-3" data-site='pentruanimale'><i
+                            class="fa fa-pencil"></i>Add/Edit URL</button></p>
             </div>
             <div class="tile-body">
 
@@ -157,11 +160,11 @@ Check prices
 
         <div class="tile">
             <div class="tile-title-w-btn">
-              <h3 class="title">Price From Zooplus</h3>
-              <p><button class="btn btn-primary icon-btn"><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
+                <h3 class="title">Price From Zooplus</h3>
+                <p><button class="btn btn-primary icon-btn"><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
             </div>
             <div class="tile-body">
-                Functionality not available yet
+                <h3 class="text-center"> <i class="fa fa-info-circle" aria-hidden="true"></i> Functionality not available yet</h3>
             </div>
         </div>
     </div>
@@ -171,23 +174,38 @@ Check prices
 @endif
 
 <div id="Modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
 
-  <!-- Modal content-->
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
-    </div>
-    <div class="modal-body">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 id='site' class="text-center"><i class="fa fa-globe" aria-hidden="true"></i></h3>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input type="hidden" id='hiden-data'>
+                                <label for="">URL</label>
+                                <input type="text" name="" id="url" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id='save-id'><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                    Save</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
 
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
-  </div>
-
-    </div>
-  </div>
+</div>
 @section('custom_javas')
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -197,28 +215,102 @@ Check prices
             "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Romanian.json",
         }
     });
-    const id= "{{$id}}";
-    const get_url='/prices/geturl';
-    const post_url='/prices/posturl';
+    // needed for routes on app
+    const id = "{{$id}}";
+    const get_url = '/prices/geturl';
+    const post_url = '/prices/posturl';
+    // elements needed
+    const siteElement = document.getElementById('site');
+    const urlElement = document.getElementById('url');
+    // crsf
+    const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
 
-    document.getElementById('url-1').addEventListener('click',function(e){
-        const site=e.target.getAttribute('data-site');
-        $('#Modal').modal('show');
+
+
+    document.getElementById('url-1').addEventListener('click', function (e) {
+        const site = e.target.getAttribute('data-site');
+        siteElement.textContent = 'PetMart';
+        document.getElementById("hiden-data").value=site;
+
+        fetch(`${get_url}/${id}?site=${site}`)
+            .then(res => res.json())
+            .then(data => {
+                    urlElement.value = data;
+                    $('#Modal').modal('show');
+            })
+            .catch(error => {
+                    toastr.error('Something is wrong');
+            });
+
     });
 
-    document.getElementById('url-2').addEventListener('click',function(e){
-        const site=e.target.getAttribute('data-site');
-        $('#Modal').modal('show');
+    document.getElementById('url-2').addEventListener('click', function (e) {
+
+        const site = e.target.getAttribute('data-site');
+        siteElement.textContent = 'EMAG';
+        document.getElementById("hiden-data").value=site;
+
+        fetch(`${get_url}/${id}?site=${site}`)
+            .then(res => res.json())
+            .then(data => {
+                    urlElement.value = data;
+                    $('#Modal').modal('show');
+            })
+            .catch(error => {
+                    toastr.error('Something is wrong');
+            });
     })
 
-    document.getElementById('url-3').addEventListener('click',function(e){
-        const site=e.target.getAttribute('data-site');
-        fetch(`${get_url}/${id}`).
-        then(res=> res.json()).
-        then(data=> console.log(data))
-        $('#Modal').modal('show');
+    document.getElementById('url-3').addEventListener('click', function (e) {
+        const site = e.target.getAttribute('data-site');
+        siteElement.textContent = 'PentruAnimale';
+        document.getElementById("hiden-data").value=site;
+
+        fetch(`${get_url}/${id}?site=${site}`)
+            .then(res => res.json())
+            .then(data => {
+                    urlElement.value = data;
+                    $('#Modal').modal('show');
+            })
+            .catch(error => {
+                    toastr.error('Something is wrong');
+            })
 
     });
+
+
+
+    //save modals
+    const btnSave= document.getElementById('save-id');
+    btnSave.addEventListener('click', function(event){
+        const site=document.getElementById("hiden-data").value;
+        const url=document.getElementById('url').value;
+
+
+        const setting= {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                "X-CSRF-Token": csrfToken
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                url,
+                site
+            })
+        };
+
+        fetch(`${post_url}/${id}`, setting)
+            .then(res=> res.json())
+            .then(data=> {
+                toastr.success(data);
+                $('#Modal').modal('hide');
+            })
+            .catch(error=>{
+                toastr.error('Something is wrong');
+            });
+    })
+
 </script>
 
 
