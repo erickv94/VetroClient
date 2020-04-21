@@ -117,11 +117,40 @@ Check prices
         <div class="tile">
             <div class="tile-title-w-btn">
                 <h3 class="title">Price From PetMart</h3>
-                <p><button class="btn btn-primary icon-btn" id="url-1" data-site='petmart'><i
+                <p><button class="btn btn-primary icon-btn" id="petmart" data-site='petmart'><i
                             class="fa fa-pencil"></i>Add/Edit URL</button></p>
             </div>
             <div class="tile-body">
-
+                <div class="row">
+                    <div class="col-6">
+                        <div class="widget-small info coloured-icon">
+                            <i class="icon fa fa-briefcase  fa-3x"></i>
+                            <div class="info">
+                                <h4>Our Price</h4>
+                                <p><b>
+                                    {{ $priceB2C }} RON
+                                </b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="widget-small danger coloured-icon">
+                            <i class="icon fa fa-briefcase fa-3x"></i>
+                            <div class="info" id='petmart-id'>
+                                <h4>Competition price</h4>
+                                @if ($pricePetmart)
+                                    <p><b>
+                                        {{ $pricePetmart }}
+                                    </b></p>
+                                @else
+                                <p><b>
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
+                                </b></p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -131,10 +160,42 @@ Check prices
         <div class="tile">
             <div class="tile-title-w-btn">
                 <h3 class="title">Price From EMAG</h3>
-                <p><button class="btn btn-primary icon-btn" id="url-2" data-site='emag'><i
+                <p><button class="btn btn-primary icon-btn" id="emag" data-site='emag'><i
                             class="fa fa-pencil"></i>Add/Edit URL</button></p>
             </div>
             <div class="tile-body">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="widget-small info coloured-icon">
+                                <i class="icon fa fa-briefcase  fa-3x"></i>
+                                <div class="info">
+                                    <h4>Our Price</h4>
+                                    <p><b>
+                                        {{ $priceB2C }} RON
+                                    </b></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="widget-small danger coloured-icon">
+                                <i class="icon fa fa-briefcase fa-3x"></i>
+                                <div class="info" id='emag-id'>
+                                    <h4>Competition price</h4>
+                                    @if ($priceEmag)
+                                        <p><b>
+                                            {{ $priceEmag }}
+                                        </b></p>
+                                    @else
+                                    <p><b>
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
+                                    </b></p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
 
             </div>
         </div>
@@ -148,11 +209,40 @@ Check prices
         <div class="tile">
             <div class="tile-title-w-btn">
                 <h3 class="title">Price From Pentruanimale</h3>
-                <p><button class="btn btn-primary icon-btn" id="url-3" data-site='pentruanimale'><i
+                <p><button class="btn btn-primary icon-btn" id="pentruanimale" data-site='pentruanimale'><i
                             class="fa fa-pencil"></i>Add/Edit URL</button></p>
             </div>
             <div class="tile-body">
-
+                <div class="row">
+                    <div class="col-6">
+                        <div class="widget-small info coloured-icon">
+                            <i class="icon fa fa-briefcase  fa-3x"></i>
+                            <div class="info">
+                                <h4>Our Price</h4>
+                                <p><b>
+                                    {{ $priceB2C }} RON
+                                </b></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="widget-small danger coloured-icon">
+                            <i class="icon fa fa-briefcase fa-3x"></i>
+                            <div class="info" id='pentruanimale-id'>
+                                <h4>Competition price</h4>
+                                @if ($pricePetru)
+                                    <p><b>
+                                        {{ $pricePetru }}
+                                    </b></p>
+                                @else
+                                <p><b>
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
+                                </b></p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -227,7 +317,7 @@ Check prices
 
 
 
-    document.getElementById('url-1').addEventListener('click', function (e) {
+    document.getElementById('petmart').addEventListener('click', function (e) {
         const site = e.target.getAttribute('data-site');
         siteElement.textContent = 'PetMart';
         document.getElementById("hiden-data").value=site;
@@ -244,7 +334,7 @@ Check prices
 
     });
 
-    document.getElementById('url-2').addEventListener('click', function (e) {
+    document.getElementById('emag').addEventListener('click', function (e) {
 
         const site = e.target.getAttribute('data-site');
         siteElement.textContent = 'EMAG';
@@ -261,7 +351,7 @@ Check prices
             });
     })
 
-    document.getElementById('url-3').addEventListener('click', function (e) {
+    document.getElementById('pentruanimale').addEventListener('click', function (e) {
         const site = e.target.getAttribute('data-site');
         siteElement.textContent = 'PentruAnimale';
         document.getElementById("hiden-data").value=site;
@@ -303,7 +393,9 @@ Check prices
         fetch(`${post_url}/${id}`, setting)
             .then(res=> res.json())
             .then(data=> {
-                toastr.success(data);
+                toastr.success(data.message);
+                const text =`<h4>Competition price</h4><p><b> ${data.priceCompetition}</b></p>`;
+                document.getElementById(`${data.site}-id`).innerHTML=text;
                 $('#Modal').modal('hide');
             })
             .catch(error=>{

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use stdClass;
 
+
 class PriceController extends Controller
 {
     public function loadData(Request $request)
@@ -42,6 +43,9 @@ class PriceController extends Controller
 
     public function checkPrices(Request $request, $id)
     {
+        // dd($this->getValueFromPentruAnimale('https://pentruanimale.ro/caini/pedigree-adult-pui-si-legume-100-g.html'));
+        // dd($this->getValueFromPetmart('https://www.petmart.ro/nutraline-cat-plic-sterilised-100-g.html'));
+        // dd($this->getValueFromEMAG('https://www.emag.ro/hrana-uscata-pentru-caini-pedigree-adult-vita-pasare-15-kg-aex50/pd/D548XBBBM/?X-Search-Id=7cd1945e6188e6453e77&X-Product-Id=313105&X-Search-Page=1&X-Search-Position=0&X-Section=search&X-MB=0&X-Search-Action=view'));
         $product = ProductLinked::where('code', $id)->first();
 
         $client = new Client();
@@ -114,6 +118,7 @@ class PriceController extends Controller
             $urlSearch='https://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search?fq=skuId:'.$skuVtex->Id;
             $response = $client->get($urlSearch, ["headers"=>$headersVtex]);
             $skuSearch=json_decode($response->getBody())[0];
+            $link=$skuSearch->link;
             foreach ($skuSearch->items as $item) {
                 if($skuVtex->Id==$item->itemId){
                     $priceWithDiscount=$item->sellers[0]->commertialOffer->PriceWithoutDiscount;
@@ -131,8 +136,21 @@ class PriceController extends Controller
 
         }
 
+        // applying scraping to sites
+        $linkedList= ProductLinked::where('code',$id)->first();
 
-        return view('prices.check', compact('productSku','stockAvaible','priceB2C','priceWithDiscount','percentDiscount','id'));
+        $priceEmag='';
+        $pricePetmart='';
+        $pricePetru='';
+
+        if($linkedList){
+            $priceEmag=$this->getValueFromEMAG($linkedList->emag??'');
+            $pricePetmart=$this->getValueFromPetmart($linkedList->petmart??'');
+            $pricePetru=$this->getValueFromPentruAnimale($linkedList->pentruanimale??'');
+        }
+        return view('prices.check', compact('productSku','stockAvaible','priceB2C'
+                    ,'priceWithDiscount','percentDiscount','id'
+                    ,'linkedList','pricePetmart','priceEmag','pricePetru','link'));
     }
 
 
@@ -151,8 +169,26 @@ class PriceController extends Controller
             $newPullOfUrls->code=$id;
             $newPullOfUrls->save();
         }
-
-       return response()->json("URL saved on ".$site, 200);
+        $priceCompetition=null;
+        switch ($site) {
+            case 'petmart':
+                $priceCompetition=$this->getValueFromPetmart($url);
+                break;
+            case 'emag':
+                $priceCompetition=$this->getValueFromEMAG($url);
+                break;
+            case 'pentruanimale':
+                $priceCompetition=$this->getValueFromPentruAnimale($url);
+                break;
+            default:
+                # code...
+                break;
+        }
+       return response()->json([
+           'message'=>'URL Updated for '.$site,
+           'site'=>$site,
+           'priceCompetition'=>$priceCompetition
+       ]);
     }
 
     public function getUrl(Request $request, $id){
@@ -162,5 +198,56 @@ class PriceController extends Controller
         $url=$pullOfUrls[$site]??'';
         return response()->json($url,200);
 
+    }
+
+
+    public function getValueFromPetmart($url){
+        $price='';
+        $client=new \Goutte\Client;
+        try{
+            $crawler = $client->request('GET', $url);
+            $price=$crawler->filter('[id*="product-price-"]')->text();
+            $price=substr($price,0,-5);
+            $entirePart=substr($price,0,-3);
+            $decimalPart=substr($price,-2,2);
+            $price="{$entirePart}.{$decimalPart} RON";
+        }
+        catch(Exception $e){}
+
+        return $price;
+    }
+
+
+
+    public function getValueFromEMAG($url){
+        $price='';
+        $client=new \Goutte\Client;
+        try{
+            $crawler = $client->request('GET', $url);
+            $price=$crawler->filter('.product-page-pricing > .product-new-price')->text();
+            // only price without decimals
+            $price=substr($price,0,-4);
+            $entirePart=substr($price,0,-2);
+            $decimalPart=substr($price,-2,2);
+
+            $price="{$entirePart}.{$decimalPart} RON";
+        }
+        catch(Exception $e){
+
+        }
+        return $price;
+    }
+
+    public function getValueFromPentruAnimale($url){
+        $price='';
+        $client=new \Goutte\Client;
+
+        try{
+            $crawler = $client->request('GET', $url);
+            $price=$crawler->filter('[itemprop=price]')->text();
+            $price=$price." RON";
+        }
+        catch(Exception $ex){}
+        return $price;
     }
 }
