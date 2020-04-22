@@ -118,6 +118,8 @@ class PriceController extends Controller
             $urlSearch='https://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search?fq=skuId:'.$skuVtex->Id;
             $response = $client->get($urlSearch, ["headers"=>$headersVtex]);
             $skuSearch=json_decode($response->getBody())[0];
+            $vtexId=$skuSearch->productId;
+
             $link=$skuSearch->link;
             foreach ($skuSearch->items as $item) {
                 if($skuVtex->Id==$item->itemId){
@@ -150,7 +152,7 @@ class PriceController extends Controller
         }
         return view('prices.check', compact('productSku','stockAvaible','priceB2C'
                     ,'priceWithDiscount','percentDiscount','id'
-                    ,'linkedList','pricePetmart','priceEmag','pricePetru','link'));
+                    ,'linkedList','pricePetmart','priceEmag','pricePetru','link','vtexId'));
     }
 
 
@@ -249,5 +251,38 @@ class PriceController extends Controller
         }
         catch(Exception $ex){}
         return $price;
+    }
+
+    public function updatePrice(Request $request){
+        $id=$request->post('id');
+        $priceToUpdate=$request->post('price');
+
+        $headers=[
+            'content-type' => 'application/json',
+            'accept'     => 'application/json',
+            'X-VTEX-API-AppKey'      => env('API_KEY'),
+            'X-VTEX-API-AppToken' =>  env('API_TOKEN')
+        ];
+
+
+        $client= new Client();
+        // url base to update and get data
+
+        $urlbase="https://api.vtex.com/vetro/pricing/prices/".$id;
+        $response = $client->request('GET',$urlbase, ["headers"=>$headers]);
+        $price=json_decode($response->getBody());
+
+        // modified price base
+        $price->basePrice=(float) $priceToUpdate;
+        unset($price->fixedPrices);
+        unset($price->costPrice);
+
+        $response = $client->request('PUT',$urlbase,
+            [
+            "json"=> (array) $price,
+            "headers"=>$headers
+            ]);
+
+        return response()->json($price);
     }
 }

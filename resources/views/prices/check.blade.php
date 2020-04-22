@@ -108,7 +108,10 @@ Check prices
     </div>
 
 </div>
-{{-- <h4 class="text-center"> <i class="fa fa-info-circle" aria-hidden="true"></i> Product information </h4> --}}
+<div class="row justify-content-center mb-3">
+    <button class="btn btn-primary icon-btn" id="displayModalPrice" ><i
+        class="fa fa-pencil"></i> Edit Product Price</button>
+</div>
 <div class="row">
 
     @if ($priceB2C)
@@ -296,6 +299,48 @@ Check prices
 
     </div>
 </div>
+    {{-- modal price --}}
+
+    <div id="modalPrice" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 id='site' class="text-center"><i class="fa fa-refresh" aria-hidden="true"></i>Edit Price</h3>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input type="hidden" id='hiden-data'>
+                                    <label for="">Price</label>
+                                    <input type="number"
+                                           step="0.01"
+                                           name=""
+                                           id="price-to-change"
+                                           class="form-control"
+                                           value={{ $priceB2C }} required
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" id='sendPrice' data-vtex-id='{{$vtexId}}'><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        Save</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 @section('custom_javas')
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -397,7 +442,6 @@ Check prices
                 let text=`<p><b>
                             <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
                         </b></p>`;
-                console.log(data);
                 if(data.priceCompetition){
                     text =`<h4>Competition price</h4><p><b> ${data.priceCompetition}</b></p>`;
                     document.getElementById(`${data.site}-id`).innerHTML=text;
@@ -411,6 +455,54 @@ Check prices
                 toastr.error('Something is wrong');
             });
     })
+
+// change prices
+document.getElementById('displayModalPrice').addEventListener('click',function(e){
+    $('#modalPrice').modal('show');
+});
+
+document.getElementById('sendPrice').addEventListener('click',function(e){
+    if(!confirm('Are you sure about change product price?')){
+        return;
+    }
+
+    let id =e.target.getAttribute('data-vtex-id');
+
+    // in case id doesn't exist we need to access from the child to the parent
+    if(!id){
+        id=e.target.parentElement.getAttribute('data-vtex-id');
+    }
+
+    const price= document.getElementById('price-to-change').value;
+
+    const setting= {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                "X-CSRF-Token": csrfToken
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                id,
+                price
+            })
+        };
+
+
+    fetch(`/prices/changePrice`, setting)
+        .then(res=> res.json())
+        .then(data=> {
+            toastr.success('Changes will take affect in a certain time.')
+            toastr.success("Price is going to be updated on VTEX.");
+
+            $('#modalPrice').modal('hide');
+        })
+        .catch(error=>{
+            toastr.error('Something is wrong');
+        });
+
+});
+
 
 </script>
 

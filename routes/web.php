@@ -50,7 +50,7 @@ Route::group(['prefix' => 'prices','middleware'=>['auth','has.permission:prices.
     Route::get('/{id}','PriceController@checkPrices')->name('prices.check');
     Route::get('/geturl/{id}','PriceController@getUrl')->name('prices.geturl');
     Route::post('/posturl/{id}','PriceController@UpdateUrls')->name('prices.posturl');
-
+    Route::post('/changePrice','PriceController@updatePrice')->name('prices.update');
 });
 
 
