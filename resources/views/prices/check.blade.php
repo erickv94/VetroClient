@@ -82,7 +82,7 @@ Check prices
                         <th>Expiration Date</th>
                         <th>Quantity</th>
                         <th>Adquisition price</th>
-                        <th>Margin <small>(pret_vanzare-pret_achizitie)/pret_vanzare</small></th>
+                        <th>Margin <small>(pret_b2c-pret_achizitie)/pret_b2c</small></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,7 +91,7 @@ Check prices
                         <td>{{ $stock->data_expirare }}</td>
                         <td>{{ $stock->cantitate }}</td>
                         <td>{{ $stock->pret_achizitie }} RON</td>
-                        <td>{{round(($productSku->pret_vanzare-$stock->pret_achizitie)/$productSku->pret_vanzare,2)}}
+                        <td>{{round(($priceB2C-$stock->pret_achizitie)/$priceB2C,2)}}
                         </td>
                     </tr>
                     @endforeach

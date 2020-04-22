@@ -123,13 +123,14 @@ class PriceController extends Controller
             $link=$skuSearch->link;
             foreach ($skuSearch->items as $item) {
                 if($skuVtex->Id==$item->itemId){
-                    $priceWithDiscount=$item->sellers[0]->commertialOffer->PriceWithoutDiscount;
-                    $priceB2C=$item->sellers[0]->commertialOffer->Price;
+                    $item->sellers[0]->commertialOffer->Price;
+                    $priceWithDiscount=$item->sellers[0]->commertialOffer->Price;
+                    $priceB2C=$item->sellers[0]->commertialOffer->PriceWithoutDiscount;
                     // it means that it doesn't have discount on it
                     if($priceWithDiscount==$priceB2C){
                         $priceWithDiscount=null;
                     }else{
-                        $percentDiscount=1-round($priceB2C/$priceWithDiscount,3);
+                        $percentDiscount=1-round($priceWithDiscount/$priceB2C,3);
                     }
 
 
