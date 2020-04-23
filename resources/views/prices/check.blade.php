@@ -88,10 +88,25 @@ Check prices
                 <tbody>
                     @foreach ($stockAvaible as $stock)
                     <tr>
-                        <td>{{ $stock->data_expirare }}</td>
+                        <td>
+
+                            @if (hasTwoMothsToExpire($stock->data_expirare))
+                                <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>
+
+                                <span class="text-danger">{{$stock->data_expirare}}</span>
+                            @else
+                                {{$stock->data_expirare}}
+                            @endif
+
+                        </td>
                         <td>{{ $stock->cantitate }}</td>
                         <td>{{ $stock->pret_achizitie }} RON</td>
-                        <td>{{round(($priceB2C-$stock->pret_achizitie)/$priceB2C,2)}}
+                        <td>
+                            @if ($priceB2C)
+                            {{round(($priceB2C-$stock->pret_achizitie)/$priceB2C,2)}}
+                            @else
+                            It doesn't have a B2C Price
+                            @endif
                         </td>
                     </tr>
                     @endforeach
@@ -108,13 +123,15 @@ Check prices
     </div>
 
 </div>
+
+@if ($priceB2C)
 <div class="row justify-content-center mb-3">
-    <button class="btn btn-primary icon-btn" id="displayModalPrice" ><i
-        class="fa fa-pencil"></i> Edit Product Price</button>
+    <button class="btn btn-primary icon-btn" id="displayModalPrice"><i class="fa fa-pencil"></i> Edit Product
+        Price</button>
 </div>
+
 <div class="row">
 
-    @if ($priceB2C)
 
     <div class="col-md-6">
         <div class="tile">
@@ -131,8 +148,8 @@ Check prices
                             <div class="info">
                                 <h4>Our Price</h4>
                                 <p><b>
-                                    {{ $priceB2C }} RON
-                                </b></p>
+                                        {{ $priceB2C }} RON
+                                    </b></p>
                             </div>
                         </div>
                     </div>
@@ -142,18 +159,19 @@ Check prices
                             <div class="info" id='petmart-id'>
                                 <h4>Competition price</h4>
                                 @if ($pricePetmart)
-                                    <p><b>
+                                <p><b>
                                         {{ $pricePetmart }}
                                     </b></p>
                                 @else
                                 <p><b>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
-                                </b></p>
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken
+                                        please edit
+                                    </b></p>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -168,46 +186,47 @@ Check prices
             </div>
             <div class="tile-body">
 
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="widget-small info coloured-icon">
-                                <i class="icon fa fa-briefcase  fa-3x"></i>
-                                <div class="info">
-                                    <h4>Our Price</h4>
-                                    <p><b>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="widget-small info coloured-icon">
+                            <i class="icon fa fa-briefcase  fa-3x"></i>
+                            <div class="info">
+                                <h4>Our Price</h4>
+                                <p><b>
                                         {{ $priceB2C }} RON
                                     </b></p>
-                                </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="widget-small danger coloured-icon">
-                                <i class="icon fa fa-briefcase fa-3x"></i>
-                                <div class="info" id='emag-id'>
-                                    <h4>Competition price</h4>
-                                    @if ($priceEmag)
-                                        <p><b>
-                                            {{ $priceEmag }}
-                                        </b></p>
-                                    @else
-                                    <p><b>
-                                        <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
-                                    </b></p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
                         </div>
                     </div>
-
+                    <div class="col-6">
+                        <div class="widget-small danger coloured-icon">
+                            <i class="icon fa fa-briefcase fa-3x"></i>
+                            <div class="info" id='emag-id'>
+                                <h4>Competition price</h4>
+                                @if ($priceEmag)
+                                <p><b>
+                                        {{ $priceEmag }}
+                                    </b></p>
+                                @else
+                                <p><b>
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken
+                                        please edit
+                                    </b></p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
-
-
     </div>
 
+
 </div>
-<div class="row">
+
+</div>
+<div class="row justify-content-center">
     <div class="col-md-6">
         <div class="tile">
             <div class="tile-title-w-btn">
@@ -223,8 +242,8 @@ Check prices
                             <div class="info">
                                 <h4>Our Price</h4>
                                 <p><b>
-                                    {{ $priceB2C }} RON
-                                </b></p>
+                                        {{ $priceB2C }} RON
+                                    </b></p>
                             </div>
                         </div>
                     </div>
@@ -234,30 +253,61 @@ Check prices
                             <div class="info" id='pentruanimale-id'>
                                 <h4>Competition price</h4>
                                 @if ($pricePetru)
-                                    <p><b>
+                                <p><b>
                                         {{ $pricePetru }}
                                     </b></p>
                                 @else
                                 <p><b>
-                                    <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
-                                </b></p>
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken
+                                        please edit
+                                    </b></p>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
 
-        <div class="tile">
+        <div class="tile ">
             <div class="tile-title-w-btn">
-                <h3 class="title">Price From Zooplus</h3>
-                <p><button class="btn btn-primary icon-btn"><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
+                <h3 class="title">Prices From Zooplus</h3>
+                <p><button class="btn btn-primary icon-btn" id="zoo" data-site='zooplus'><i class="fa fa-pencil"></i>Add/Edit URL</button></p>
             </div>
             <div class="tile-body">
-                <h3 class="text-center"> <i class="fa fa-info-circle" aria-hidden="true"></i> Functionality not available yet</h3>
+                <div class="info" id='zooplus-id'>
+
+                    @if ($listPrices)
+                    <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Title</th>
+                              <th>Item</th>
+                              <th>Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              @foreach ($listPrices as $item)
+                                  <tr>
+                                      <td>{{$item->title}}</td>
+                                      <td>{{$item->variant}}</td>
+                                      <td>{{$item->price}}</td>
+                                  </tr>
+                              @endforeach
+
+                        </tbody>
+                        </table>
+                      </div>
+                    @else
+                        <p><b>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken
+                            please edit
+                        </b></p>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -291,7 +341,8 @@ Check prices
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-primary" id='save-id'><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                <button type="button" class="btn btn-outline-primary" id='save-id'><i class="fa fa-floppy-o"
+                        aria-hidden="true"></i>
                     Save</button>
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -299,47 +350,44 @@ Check prices
 
     </div>
 </div>
-    {{-- modal price --}}
+{{-- modal price --}}
 
-    <div id="modalPrice" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
+<div id="modalPrice" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <h3 id='site' class="text-center"><i class="fa fa-refresh" aria-hidden="true"></i>Edit Price</h3>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <input type="hidden" id='hiden-data'>
-                                    <label for="">Price</label>
-                                    <input type="number"
-                                           step="0.01"
-                                           name=""
-                                           id="price-to-change"
-                                           class="form-control"
-                                           value={{ $priceB2C }} required
-                                    >
-                                </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 id='site' class="text-center"><i class="fa fa-refresh" aria-hidden="true"></i>Edit Price
+                            </h3>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input type="hidden" id='hiden-data'>
+                                <label for="">Price</label>
+                                <input type="number" step="0.01" name="" id="price-to-change" class="form-control"
+                                    value={{ $priceB2C }} required>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" id='sendPrice' data-vtex-id='{{$vtexId}}'><i class="fa fa-floppy-o" aria-hidden="true"></i>
-                        Save</button>
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                </div>
             </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" id='sendPrice' data-vtex-id='{{$vtexId}}'><i
+                        class="fa fa-floppy-o" aria-hidden="true"></i>
+                    Save</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
+
     </div>
+</div>
 </div>
 @section('custom_javas')
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
@@ -365,16 +413,16 @@ Check prices
     document.getElementById('petmart').addEventListener('click', function (e) {
         const site = e.target.getAttribute('data-site');
         siteElement.textContent = 'PetMart';
-        document.getElementById("hiden-data").value=site;
+        document.getElementById("hiden-data").value = site;
 
         fetch(`${get_url}/${id}?site=${site}`)
             .then(res => res.json())
             .then(data => {
-                    urlElement.value = data;
-                    $('#Modal').modal('show');
+                urlElement.value = data;
+                $('#Modal').modal('show');
             })
             .catch(error => {
-                    toastr.error('Something is wrong');
+                toastr.error('Something is wrong');
             });
 
     });
@@ -383,46 +431,63 @@ Check prices
 
         const site = e.target.getAttribute('data-site');
         siteElement.textContent = 'EMAG';
-        document.getElementById("hiden-data").value=site;
+        document.getElementById("hiden-data").value = site;
 
         fetch(`${get_url}/${id}?site=${site}`)
             .then(res => res.json())
             .then(data => {
-                    urlElement.value = data;
-                    $('#Modal').modal('show');
+                urlElement.value = data;
+                $('#Modal').modal('show');
             })
             .catch(error => {
-                    toastr.error('Something is wrong');
+                toastr.error('Something is wrong');
             });
     })
 
     document.getElementById('pentruanimale').addEventListener('click', function (e) {
         const site = e.target.getAttribute('data-site');
         siteElement.textContent = 'PentruAnimale';
-        document.getElementById("hiden-data").value=site;
+        document.getElementById("hiden-data").value = site;
 
         fetch(`${get_url}/${id}?site=${site}`)
             .then(res => res.json())
             .then(data => {
-                    urlElement.value = data;
-                    $('#Modal').modal('show');
+                urlElement.value = data;
+                $('#Modal').modal('show');
             })
             .catch(error => {
-                    toastr.error('Something is wrong');
+                toastr.error('Something is wrong');
             })
 
     });
 
 
+    document.getElementById('zoo').addEventListener('click', function (e) {
+        const site = e.target.getAttribute('data-site');
+        siteElement.textContent = 'ZooPlus';
+        document.getElementById("hiden-data").value = site;
+
+        fetch(`${get_url}/${id}?site=${site}`)
+            .then(res => res.json())
+            .then(data => {
+                urlElement.value = data;
+                $('#Modal').modal('show');
+            })
+            .catch(error => {
+                toastr.error('Something is wrong');
+            })
+
+    });
+
 
     //save modals
-    const btnSave= document.getElementById('save-id');
-    btnSave.addEventListener('click', function(event){
-        const site=document.getElementById("hiden-data").value;
-        const url=document.getElementById('url').value;
+    const btnSave = document.getElementById('save-id');
+    btnSave.addEventListener('click', function (event) {
+        const site = document.getElementById("hiden-data").value;
+        const url = document.getElementById('url').value;
 
 
-        const setting= {
+        const setting = {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
@@ -436,46 +501,73 @@ Check prices
         };
 
         fetch(`${post_url}/${id}`, setting)
-            .then(res=> res.json())
-            .then(data=> {
+            .then(res => res.json())
+            .then(data => {
                 toastr.success(data.message);
-                let text=`<p><b>
+                let text = `<p><b>
                             <i class="fa fa-info-circle" aria-hidden="true"></i>URL not available or broken please edit
                         </b></p>`;
-                if(data.priceCompetition){
-                    text =`<h4>Competition price</h4><p><b> ${data.priceCompetition}</b></p>`;
-                    document.getElementById(`${data.site}-id`).innerHTML=text;
-                }
-                else{
-                    document.getElementById(`${data.site}-id`).innerHTML=text;
+                // if its null, prints that is broken
+                if (data.priceCompetition) {
+                    text = `<h4>Competition price</h4><p><b> ${data.priceCompetition}</b></p>`;
+                    if(Array.isArray(data.priceCompetition)){
+                        const html=data.priceCompetition.map(el=>
+                        {              return `<tr>
+                                            <td>${el.title}</td>
+                                            <td>${el.variant}</td>
+                                            <td>${el.price}</td>
+                                        </tr>`;}
+                        ).join('');
+
+
+                        text=`
+                        <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Title</th>
+                              <th>Item</th>
+                              <th>Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            ${html}
+                        </tbody>
+                        </table>
+                      </div>
+                        `;
+                    }
+                    document.getElementById(`${data.site}-id`).innerHTML = text;
+                } else {
+                    document.getElementById(`${data.site}-id`).innerHTML = text;
                 }
                 $('#Modal').modal('hide');
             })
-            .catch(error=>{
+            .catch(error => {
                 toastr.error('Something is wrong');
             });
     })
 
-// change prices
-document.getElementById('displayModalPrice').addEventListener('click',function(e){
-    $('#modalPrice').modal('show');
-});
+    // change prices
+    document.getElementById('displayModalPrice').addEventListener('click', function (e) {
+        $('#modalPrice').modal('show');
+    });
 
-document.getElementById('sendPrice').addEventListener('click',function(e){
-    if(!confirm('Are you sure about change product price?')){
-        return;
-    }
+    document.getElementById('sendPrice').addEventListener('click', function (e) {
+        if (!confirm('Are you sure about change product price?')) {
+            return;
+        }
 
-    let id =e.target.getAttribute('data-vtex-id');
+        let id = e.target.getAttribute('data-vtex-id');
 
-    // in case id doesn't exist we need to access from the child to the parent
-    if(!id){
-        id=e.target.parentElement.getAttribute('data-vtex-id');
-    }
+        // in case id doesn't exist we need to access from the child to the parent
+        if (!id) {
+            id = e.target.parentElement.getAttribute('data-vtex-id');
+        }
 
-    const price= document.getElementById('price-to-change').value;
+        const price = document.getElementById('price-to-change').value;
 
-    const setting= {
+        const setting = {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
@@ -489,20 +581,19 @@ document.getElementById('sendPrice').addEventListener('click',function(e){
         };
 
 
-    fetch(`/prices/changePrice`, setting)
-        .then(res=> res.json())
-        .then(data=> {
-            toastr.success('Changes will take affect in a certain time.')
-            toastr.success("Price is going to be updated on VTEX.");
+        fetch(`/prices/changePrice`, setting)
+            .then(res => res.json())
+            .then(data => {
+                toastr.success('Changes will take affect in a certain time.')
+                toastr.success("Price is going to be updated on VTEX.");
 
-            $('#modalPrice').modal('hide');
-        })
-        .catch(error=>{
-            toastr.error('Something is wrong');
-        });
+                $('#modalPrice').modal('hide');
+            })
+            .catch(error => {
+                toastr.error('Something is wrong');
+            });
 
-});
-
+    });
 
 </script>
 

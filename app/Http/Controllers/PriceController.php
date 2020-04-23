@@ -43,9 +43,8 @@ class PriceController extends Controller
 
     public function checkPrices(Request $request, $id)
     {
-        // dd($this->getValueFromPentruAnimale('https://pentruanimale.ro/caini/pedigree-adult-pui-si-legume-100-g.html'));
-        // dd($this->getValueFromPetmart('https://www.petmart.ro/nutraline-cat-plic-sterilised-100-g.html'));
-        // dd($this->getValueFromEMAG('https://www.emag.ro/hrana-uscata-pentru-caini-pedigree-adult-vita-pasare-15-kg-aex50/pd/D548XBBBM/?X-Search-Id=7cd1945e6188e6453e77&X-Product-Id=313105&X-Search-Page=1&X-Search-Position=0&X-Section=search&X-MB=0&X-Search-Action=view'));
+        // $this->getValueFromZooplus('https://www.zooplus.ro/shop/pisici/hrana_uscata_pisici/royal_canin_feline/health_specialty/243185?rrec=true&pr=home4_rr&slot=1&exprienceid=4571&strategyid=51867');
+
         $product = ProductLinked::where('code', $id)->first();
 
         $client = new Client();
@@ -113,13 +112,15 @@ class PriceController extends Controller
         $priceB2C=null;
         $priceWithDiscount=null;
         $percentDiscount=null;
+        $vtexId=null;
+        $link=null;
+
 
         if($skuVtex){
             $urlSearch='https://vetro.vtexcommercestable.com.br/api/catalog_system/pub/products/search?fq=skuId:'.$skuVtex->Id;
             $response = $client->get($urlSearch, ["headers"=>$headersVtex]);
             $skuSearch=json_decode($response->getBody())[0];
             $vtexId=$skuSearch->productId;
-
             $link=$skuSearch->link;
             foreach ($skuSearch->items as $item) {
                 if($skuVtex->Id==$item->itemId){
@@ -145,15 +146,21 @@ class PriceController extends Controller
         $priceEmag=null;
         $pricePetmart=null;
         $pricePetru=null;
+        $listPrices=null;
 
         if($linkedList){
             $priceEmag=$this->getValueFromEMAG($linkedList->emag??'');
             $pricePetmart=$this->getValueFromPetmart($linkedList->petmart??'');
             $pricePetru=$this->getValueFromPentruAnimale($linkedList->pentruanimale??'');
+            $listPrices= $this->getValueFromZooplus($linkedList->zooplus??'');
         }
+
+        // dd($listPrices);
+
         return view('prices.check', compact('productSku','stockAvaible','priceB2C'
                     ,'priceWithDiscount','percentDiscount','id'
-                    ,'linkedList','pricePetmart','priceEmag','pricePetru','link','vtexId'));
+                    ,'linkedList','pricePetmart','priceEmag','pricePetru',
+                    'link','vtexId','listPrices'));
     }
 
 
@@ -182,6 +189,9 @@ class PriceController extends Controller
                 break;
             case 'pentruanimale':
                 $priceCompetition=$this->getValueFromPentruAnimale($url);
+                break;
+            case 'zooplus':
+                $priceCompetition=$this->getValueFromZooplus($url);
                 break;
             default:
                 # code...
@@ -252,6 +262,32 @@ class PriceController extends Controller
         }
         catch(Exception $ex){}
         return $price;
+    }
+
+    public function getValueFromZooplus($url){
+        $client=new \Goutte\Client;
+        try{
+            $crawler = $client->request('GET', $url);
+
+            $title=$crawler->filter('.producttitle')->text();
+            $price=null;
+            $variant=null;
+
+            $productList=$crawler->filter('.product__offer ')->each(function($el) use($title){
+                $price=$el->filter('.product__prices_col')->text();
+                $price=str_replace('LEI','RON',$price);
+                $variant=$el->filter('.product__varianttitle')->text();
+                return (object) ["price"=>$price,'variant'=>$variant,'title'=>$title];
+            });
+
+
+            return $productList;
+
+        }
+        catch(Exception $e){
+
+        }
+        return null;
     }
 
     public function updatePrice(Request $request){
